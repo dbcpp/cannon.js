@@ -977,6 +977,15 @@ declare namespace CANNON {
         public volume (): number;
         public calculateLocalInertia (mass: number, target: Vec3): Vec3;
 
+        /**
+         * @method calculateWorldAABB
+         * @param {Vec3}        pos
+         * @param {Quaternion}  quat
+         * @param {Vec3}        min
+         * @param {Vec3}        max
+         * @note only child have implement
+         */
+        public calculateWorldAABB (pos: Vec3, quat: Quaternion, min: Vec3, max: Vec3): void;
     }
 
     class Sphere extends Shape {
