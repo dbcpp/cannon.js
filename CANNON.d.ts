@@ -1356,9 +1356,10 @@ declare namespace CANNON {
     }
 
     interface IBodyEvent extends IEvent {
-
+        type: '';
         body: Body;
-
+        target: Body;
+        contact: ContactEquation;
     }
 
     interface ICollisionEvent extends IBodyEvent {
