@@ -264,18 +264,26 @@ declare namespace CANNON {
         public motorMinForce: number;
         public motorMaxForce: number;
         public motorEquation: RotationalMotorEquation;
-
+        pivotA: Vec3;
+        axisA: Vec3;
+        pivotB: Vec3;
+        axisB: Vec3;
+        equations: ContactEquation[] | RotationalEquation[] | RotationalMotorEquation[];
         constructor (bodyA: Body, bodyB: Body, options?: IHingeConstraintOptions);
 
         public enableMotor (): void;
         public disableMotor (): void;
-
+        setMotorSpeed (v: number): void;
+        setMotorMaxForce (v: number): void;
+        update (): void;
     }
 
     class PointToPointConstraint extends Constraint {
 
-        constructor (bodyA: Body, pivotA: Vec3, bodyB: Body, pivotB: Vec3, maxForce?: number);
-
+        constructor (bodyA: Body, pivotA: Vec3 | null, bodyB: Body, pivotB?: Vec3, maxForce?: number);
+        pivotA: Vec3;
+        pivotB: Vec3;
+        equations: ContactEquation[];
     }
 
     interface ILockConstraintOptions {
@@ -343,8 +351,12 @@ declare namespace CANNON {
         public relVel: Vec3;
         public relForce: Vec3;
 
-        constructor (bodyA: Body, bodyB: Body);
+        axisA: Vec3;
+        axisB: Vec3;
+        maxAngle: number;
 
+        constructor (bodyA: Body, bodyB: Body);
+        computeB (): void;
     }
 
     class RotationalMotorEquation extends Equation {
@@ -356,7 +368,7 @@ declare namespace CANNON {
         public targetVelocity: number;
 
         constructor (bodyA: Body, bodyB: Body, maxForce?: number);
-
+        computeB (): void;
     }
 
     class ContactEquation extends Equation {
