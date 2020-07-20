@@ -4,6 +4,7 @@ var Shape = require('./Shape');
 var Vec3 = require('../math/Vec3');
 var Quaternion = require('../math/Quaternion');
 var ConvexPolyhedron = require('./ConvexPolyhedron');
+var CMath = require('../math/CMath');
 
 /**
  * @class Cylinder
@@ -18,8 +19,8 @@ var ConvexPolyhedron = require('./ConvexPolyhedron');
 function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
     if (isDirY) {
         var N = numSegments,
-        cos = Math.cos,
-        sin = Math.sin;
+        cos = CMath.cos,
+        sin = CMath.sin;
         var halfH = height / 2;
         var vertices = [];
         var indices = [];
@@ -28,8 +29,8 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
         var axes = [];
         var theta = Math.PI * 2 / N;
         for (var i = 0; i < N; i++) {
-            vertices.push(new Vec3(radiusTop * Math.cos(theta * i), halfH, radiusTop * Math.sin(theta * i)));
-            vertices.push(new Vec3(radiusTop * Math.cos(theta * i), -halfH, radiusTop * Math.sin(theta * i)));
+            vertices.push(new Vec3(radiusTop * cos(theta * i), halfH, radiusTop * sin(theta * i)));
+            vertices.push(new Vec3(radiusTop * cos(theta * i), -halfH, radiusTop * sin(theta * i)));
             if (i < N - 1) {
                 indices.push([2 * i + 2, 2 * i + 3, 2 * i + 1, 2 * i]);
                 tf.push(2 * i + 2);
@@ -53,8 +54,8 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
         faces = [],
         bottomface = [],
         topface = [],
-        cos = Math.cos,
-        sin = Math.sin;
+        cos = CMath.cos,
+        sin = CMath.sin;
 
     // First bottom point
     verts.push(new Vec3(radiusBottom*cos(0),
