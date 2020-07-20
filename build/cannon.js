@@ -1,4 +1,4 @@
-// Tue, 16 Jun 2020 09:01:53 GMT
+// Mon, 20 Jul 2020 08:35:51 GMT
 
 /*
  * Copyright (c) 2015 cannon.js Authors
@@ -26,7 +26,7 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.CANNON=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 module.exports={
   "name": "@cocos/cannon",
-  "version": "1.1.1",
+  "version": "1.1.1-exp.1",
   "description": "A lightweight 3D physics engine written in JavaScript.",
   "homepage": "https://github.com/cocos-creator/cannon.js",
   "author": "Stefan Hedman <schteppe@gmail.com> (http://steffe.se), JayceLai",
@@ -128,9 +128,10 @@ module.exports = {
     Vec3Pool :                      _dereq_('./utils/Vec3Pool'),
     World :                         _dereq_('./world/World'),
     Octree :                        _dereq_('./utils/Octree'),
+    CMath :                         _dereq_('./math/CMath'),
 };
 
-},{"../package.json":1,"./collision/AABB":3,"./collision/ArrayCollisionMatrix":4,"./collision/Broadphase":5,"./collision/GridBroadphase":6,"./collision/NaiveBroadphase":7,"./collision/ObjectCollisionMatrix":8,"./collision/Ray":10,"./collision/RaycastResult":11,"./collision/SAPBroadphase":12,"./constraints/ConeTwistConstraint":13,"./constraints/Constraint":14,"./constraints/DistanceConstraint":15,"./constraints/HingeConstraint":16,"./constraints/LockConstraint":17,"./constraints/PointToPointConstraint":18,"./equations/ContactEquation":20,"./equations/Equation":21,"./equations/FrictionEquation":22,"./equations/RotationalEquation":23,"./equations/RotationalMotorEquation":24,"./material/ContactMaterial":25,"./material/Material":26,"./math/Mat3":28,"./math/Quaternion":29,"./math/Transform":30,"./math/Vec3":31,"./objects/Body":32,"./objects/RaycastVehicle":33,"./objects/RigidVehicle":34,"./objects/SPHSystem":35,"./objects/Spring":36,"./shapes/Box":38,"./shapes/ConvexPolyhedron":39,"./shapes/Cylinder":40,"./shapes/Heightfield":41,"./shapes/Particle":42,"./shapes/Plane":43,"./shapes/Shape":44,"./shapes/Sphere":45,"./shapes/Trimesh":46,"./solver/GSSolver":47,"./solver/Solver":48,"./solver/SplitSolver":49,"./utils/EventTarget":50,"./utils/Octree":51,"./utils/Pool":52,"./utils/Vec3Pool":55,"./world/Narrowphase":56,"./world/World":57}],3:[function(_dereq_,module,exports){
+},{"../package.json":1,"./collision/AABB":3,"./collision/ArrayCollisionMatrix":4,"./collision/Broadphase":5,"./collision/GridBroadphase":6,"./collision/NaiveBroadphase":7,"./collision/ObjectCollisionMatrix":8,"./collision/Ray":10,"./collision/RaycastResult":11,"./collision/SAPBroadphase":12,"./constraints/ConeTwistConstraint":13,"./constraints/Constraint":14,"./constraints/DistanceConstraint":15,"./constraints/HingeConstraint":16,"./constraints/LockConstraint":17,"./constraints/PointToPointConstraint":18,"./equations/ContactEquation":20,"./equations/Equation":21,"./equations/FrictionEquation":22,"./equations/RotationalEquation":23,"./equations/RotationalMotorEquation":24,"./material/ContactMaterial":25,"./material/Material":26,"./math/CMath":27,"./math/Mat3":29,"./math/Quaternion":30,"./math/Transform":31,"./math/Vec3":32,"./objects/Body":33,"./objects/RaycastVehicle":34,"./objects/RigidVehicle":35,"./objects/SPHSystem":36,"./objects/Spring":37,"./shapes/Box":39,"./shapes/ConvexPolyhedron":40,"./shapes/Cylinder":41,"./shapes/Heightfield":42,"./shapes/Particle":43,"./shapes/Plane":44,"./shapes/Shape":45,"./shapes/Sphere":46,"./shapes/Trimesh":47,"./solver/GSSolver":48,"./solver/Solver":49,"./solver/SplitSolver":50,"./utils/EventTarget":51,"./utils/Octree":52,"./utils/Pool":53,"./utils/Vec3Pool":56,"./world/Narrowphase":57,"./world/World":58}],3:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 var Utils = _dereq_('../utils/Utils');
 
@@ -453,7 +454,7 @@ AABB.prototype.overlapsRay = function(ray){
 
     return true;
 };
-},{"../math/Vec3":31,"../utils/Utils":54}],4:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"../utils/Utils":55}],4:[function(_dereq_,module,exports){
 module.exports = ArrayCollisionMatrix;
 
 /**
@@ -739,7 +740,7 @@ Broadphase.prototype.aabbQuery = function(world, aabb, result){
     console.warn('.aabbQuery is not implemented in this Broadphase subclass.');
     return [];
 };
-},{"../math/Quaternion":29,"../math/Vec3":31,"../objects/Body":32,"../shapes/Plane":43,"../shapes/Shape":44}],6:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"../shapes/Plane":44,"../shapes/Shape":45}],6:[function(_dereq_,module,exports){
 module.exports = GridBroadphase;
 
 var Broadphase = _dereq_('./Broadphase');
@@ -969,7 +970,7 @@ GridBroadphase.prototype.collisionPairs = function(world,pairs1,pairs2){
     this.makePairsUnique(pairs1,pairs2);
 };
 
-},{"../math/Vec3":31,"../shapes/Shape":44,"./Broadphase":5}],7:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"../shapes/Shape":45,"./Broadphase":5}],7:[function(_dereq_,module,exports){
 module.exports = NaiveBroadphase;
 
 var Broadphase = _dereq_('./Broadphase');
@@ -2040,7 +2041,7 @@ function distanceFromIntersection(from, direction, position) {
 }
 
 
-},{"../collision/AABB":3,"../collision/RaycastResult":11,"../math/Quaternion":29,"../math/Transform":30,"../math/Vec3":31,"../shapes/Box":38,"../shapes/ConvexPolyhedron":39,"../shapes/Shape":44}],11:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../collision/RaycastResult":11,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../shapes/Box":39,"../shapes/ConvexPolyhedron":40,"../shapes/Shape":45}],11:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 
 module.exports = RaycastResult;
@@ -2163,7 +2164,7 @@ RaycastResult.prototype.set = function(
 	this.body = body;
 	this.distance = distance;
 };
-},{"../math/Vec3":31}],12:[function(_dereq_,module,exports){
+},{"../math/Vec3":32}],12:[function(_dereq_,module,exports){
 var Shape = _dereq_('../shapes/Shape');
 var Broadphase = _dereq_('../collision/Broadphase');
 
@@ -2487,7 +2488,7 @@ SAPBroadphase.prototype.aabbQuery = function(world, aabb, result){
 
     return result;
 };
-},{"../collision/Broadphase":5,"../shapes/Shape":44}],13:[function(_dereq_,module,exports){
+},{"../collision/Broadphase":5,"../shapes/Shape":45}],13:[function(_dereq_,module,exports){
 module.exports = ConeTwistConstraint;
 
 var Constraint = _dereq_('./Constraint');
@@ -2578,7 +2579,7 @@ ConeTwistConstraint.prototype.update = function(){
 };
 
 
-},{"../equations/ConeEquation":19,"../equations/ContactEquation":20,"../equations/RotationalEquation":23,"../math/Vec3":31,"./Constraint":14,"./PointToPointConstraint":18}],14:[function(_dereq_,module,exports){
+},{"../equations/ConeEquation":19,"../equations/ContactEquation":20,"../equations/RotationalEquation":23,"../math/Vec3":32,"./Constraint":14,"./PointToPointConstraint":18}],14:[function(_dereq_,module,exports){
 module.exports = Constraint;
 
 var Utils = _dereq_('../utils/Utils');
@@ -2671,7 +2672,7 @@ Constraint.prototype.disable = function(){
 
 Constraint.idCounter = 0;
 
-},{"../utils/Utils":54}],15:[function(_dereq_,module,exports){
+},{"../utils/Utils":55}],15:[function(_dereq_,module,exports){
 module.exports = DistanceConstraint;
 
 var Constraint = _dereq_('./Constraint');
@@ -2864,7 +2865,7 @@ HingeConstraint.prototype.update = function(){
 };
 
 
-},{"../equations/ContactEquation":20,"../equations/RotationalEquation":23,"../equations/RotationalMotorEquation":24,"../math/Vec3":31,"./Constraint":14,"./PointToPointConstraint":18}],17:[function(_dereq_,module,exports){
+},{"../equations/ContactEquation":20,"../equations/RotationalEquation":23,"../equations/RotationalMotorEquation":24,"../math/Vec3":32,"./Constraint":14,"./PointToPointConstraint":18}],17:[function(_dereq_,module,exports){
 module.exports = LockConstraint;
 
 var Constraint = _dereq_('./Constraint');
@@ -2958,7 +2959,7 @@ LockConstraint.prototype.update = function(){
 };
 
 
-},{"../equations/ContactEquation":20,"../equations/RotationalEquation":23,"../equations/RotationalMotorEquation":24,"../math/Vec3":31,"./Constraint":14,"./PointToPointConstraint":18}],18:[function(_dereq_,module,exports){
+},{"../equations/ContactEquation":20,"../equations/RotationalEquation":23,"../equations/RotationalMotorEquation":24,"../math/Vec3":32,"./Constraint":14,"./PointToPointConstraint":18}],18:[function(_dereq_,module,exports){
 module.exports = PointToPointConstraint;
 
 var Constraint = _dereq_('./Constraint');
@@ -3051,12 +3052,13 @@ PointToPointConstraint.prototype.update = function(){
     z.ri.copy(x.ri);
     z.rj.copy(x.rj);
 };
-},{"../equations/ContactEquation":20,"../math/Vec3":31,"./Constraint":14}],19:[function(_dereq_,module,exports){
+},{"../equations/ContactEquation":20,"../math/Vec3":32,"./Constraint":14}],19:[function(_dereq_,module,exports){
 module.exports = ConeEquation;
 
 var Vec3 = _dereq_('../math/Vec3');
 var Mat3 = _dereq_('../math/Mat3');
 var Equation = _dereq_('./Equation');
+var CMath = _dereq_('../math/CMath');
 
 /**
  * Cone equation. Works to keep the given body world vectors aligned, or tilted within a given angle from each other.
@@ -3120,7 +3122,7 @@ ConeEquation.prototype.computeB = function(h){
     GA.rotational.copy(njxni);
     GB.rotational.copy(nixnj);
 
-    var g = Math.cos(this.angle) - ni.dot(nj),
+    var g = CMath.cos(this.angle) - ni.dot(nj),
         GW = this.computeGW(),
         GiMf = this.computeGiMf();
 
@@ -3130,7 +3132,7 @@ ConeEquation.prototype.computeB = function(h){
 };
 
 
-},{"../math/Mat3":28,"../math/Vec3":31,"./Equation":21}],20:[function(_dereq_,module,exports){
+},{"../math/CMath":27,"../math/Mat3":29,"../math/Vec3":32,"./Equation":21}],20:[function(_dereq_,module,exports){
 module.exports = ContactEquation;
 
 var Equation = _dereq_('./Equation');
@@ -3279,7 +3281,7 @@ ContactEquation.prototype.getImpactVelocityAlongNormal = function(){
 };
 
 
-},{"../math/Mat3":28,"../math/Vec3":31,"./Equation":21}],21:[function(_dereq_,module,exports){
+},{"../math/Mat3":29,"../math/Vec3":32,"./Equation":21}],21:[function(_dereq_,module,exports){
 module.exports = Equation;
 
 var JacobianElement = _dereq_('../math/JacobianElement'),
@@ -3543,7 +3545,7 @@ Equation.prototype.computeC = function(){
     return this.computeGiMGt() + this.eps;
 };
 
-},{"../math/JacobianElement":27,"../math/Vec3":31}],22:[function(_dereq_,module,exports){
+},{"../math/JacobianElement":28,"../math/Vec3":32}],22:[function(_dereq_,module,exports){
 module.exports = FrictionEquation;
 
 var Equation = _dereq_('./Equation');
@@ -3604,12 +3606,13 @@ FrictionEquation.prototype.computeB = function(h){
     return B;
 };
 
-},{"../math/Mat3":28,"../math/Vec3":31,"./Equation":21}],23:[function(_dereq_,module,exports){
+},{"../math/Mat3":29,"../math/Vec3":32,"./Equation":21}],23:[function(_dereq_,module,exports){
 module.exports = RotationalEquation;
 
 var Vec3 = _dereq_('../math/Vec3');
 var Mat3 = _dereq_('../math/Mat3');
 var Equation = _dereq_('./Equation');
+var CMath = _dereq_('../math/CMath');
 
 /**
  * Rotational constraint. Works to keep the local vectors orthogonal to each other in world space.
@@ -3665,7 +3668,7 @@ RotationalEquation.prototype.computeB = function(h){
     GA.rotational.copy(njxni);
     GB.rotational.copy(nixnj);
 
-    var g = Math.cos(this.maxAngle) - ni.dot(nj),
+    var g = CMath.cos(this.maxAngle) - ni.dot(nj),
         GW = this.computeGW(),
         GiMf = this.computeGiMf();
 
@@ -3675,7 +3678,7 @@ RotationalEquation.prototype.computeB = function(h){
 };
 
 
-},{"../math/Mat3":28,"../math/Vec3":31,"./Equation":21}],24:[function(_dereq_,module,exports){
+},{"../math/CMath":27,"../math/Mat3":29,"../math/Vec3":32,"./Equation":21}],24:[function(_dereq_,module,exports){
 module.exports = RotationalMotorEquation;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -3747,7 +3750,7 @@ RotationalMotorEquation.prototype.computeB = function(h){
     return B;
 };
 
-},{"../math/Mat3":28,"../math/Vec3":31,"./Equation":21}],25:[function(_dereq_,module,exports){
+},{"../math/Mat3":29,"../math/Vec3":32,"./Equation":21}],25:[function(_dereq_,module,exports){
 var Utils = _dereq_('../utils/Utils');
 
 module.exports = ContactMaterial;
@@ -3828,7 +3831,7 @@ function ContactMaterial(m1, m2, options){
 
 ContactMaterial.idCounter = 0;
 
-},{"../utils/Utils":54}],26:[function(_dereq_,module,exports){
+},{"../utils/Utils":55}],26:[function(_dereq_,module,exports){
 module.exports = Material;
 
 /**
@@ -3879,6 +3882,92 @@ function Material(options){
 Material.idCounter = 0;
 
 },{}],27:[function(_dereq_,module,exports){
+
+
+var ang2rad = Math.PI / 180;
+var rad2ang = 180 / Math.PI;
+function radian2angle (rad) {
+    return rad * rad2ang;
+}
+
+var sinArr = {};
+function calculateSinByDigit (digit) {
+    var step = 1 / Math.pow(10, digit);
+    for (var i = 0; i <= 90; i += step) {
+        sinArr[i.toFixed(digit)] = Math.sin(i * ang2rad);
+    }
+}
+
+function sin360 (angle, digit) {
+    if (angle <= 90) {
+        return sinArr[angle.toFixed(digit)];
+    } else if (angle <= 180) {
+        angle = 180 - angle;
+        return sinArr[angle.toFixed(digit)];
+    } else if (angle <= 270) {
+        angle = angle - 180;
+        return -sinArr[angle.toFixed(digit)];
+    } else {
+        angle = 360 - angle;
+        return -sinArr[angle.toFixed(digit)];
+    }
+}
+
+function sin (rad) {
+    var angle = radian2angle(rad) % 360;
+    if (angle < 0) { angle += 360; }
+    return sin360(angle, CMath._digit);
+}
+
+function cos (rad) {
+    var angle = (radian2angle(rad) + 90) % 360;
+    if (angle < 0) { angle += 360; }
+    return sin360(angle, CMath._digit);
+}
+
+var CMath = {
+    sin: Math.sin,
+    cos: Math.cos,
+    atan2: Math.atan2,
+}
+
+CMath._sinArr = sinArr;
+CMath._sin360 = sin360;
+CMath._radian2angle = radian2angle;
+CMath._calculateSinByDigit = calculateSinByDigit;
+
+CMath._digit = 1;
+calculateSinByDigit(CMath._digit);
+Object.defineProperty(CMath, 'digit', {
+    'get': function () { return this._digit; },
+    'set': function (v) {
+        if (this._digit != v) {
+            this._digit = v;
+            calculateSinByDigit(v);
+        }
+    }
+});
+
+CMath._enable = false;
+Object.defineProperty(CMath, 'enable', {
+    'get': function () { return this._enable; },
+    'set': function (v) {
+        if (this._enable != v) {
+            this._enable = v;
+            if (v) {
+                CMath.sin = sin;
+                CMath.cos = cos;
+            } else {
+                CMath.sin = Math.sin;
+                CMath.cos = Math.cos;
+            }
+        }
+    }
+});
+
+module.exports = CMath;
+
+},{}],28:[function(_dereq_,module,exports){
 module.exports = JacobianElement;
 
 var Vec3 = _dereq_('./Vec3');
@@ -3922,7 +4011,7 @@ JacobianElement.prototype.multiplyVectors = function(spatial,rotational){
     return spatial.dot(this.spatial) + rotational.dot(this.rotational);
 };
 
-},{"./Vec3":31}],28:[function(_dereq_,module,exports){
+},{"./Vec3":32}],29:[function(_dereq_,module,exports){
 module.exports = Mat3;
 
 var Vec3 = _dereq_('./Vec3');
@@ -4346,10 +4435,11 @@ Mat3.prototype.transpose = function( target ) {
     return target;
 };
 
-},{"./Vec3":31}],29:[function(_dereq_,module,exports){
+},{"./Vec3":32}],30:[function(_dereq_,module,exports){
 module.exports = Quaternion;
 
 var Vec3 = _dereq_('./Vec3');
+var CMath = _dereq_('./CMath');
 
 /**
  * A Quaternion describes a rotation in 3D space. The Quaternion is mathematically defined as Q = x*i + y*j + z*k + w, where (i,j,k) are imaginary basis vectors. (x,y,z) can be seen as a vector related to the axis of rotation, while the real multiplier, w, is related to the amount of rotation.
@@ -4425,11 +4515,11 @@ Quaternion.prototype.toArray = function(){
  * @param {Number} angle in radians
  */
 Quaternion.prototype.setFromAxisAngle = function(axis,angle){
-    var s = Math.sin(angle*0.5);
+    var s = CMath.sin(angle*0.5);
     this.x = axis.x * s;
     this.y = axis.y * s;
     this.z = axis.z * s;
-    this.w = Math.cos(angle*0.5);
+    this.w = CMath.cos(angle*0.5);
     return this;
 };
 
@@ -4650,12 +4740,12 @@ Quaternion.prototype.toEuler = function(target,order){
     case "YZX":
         var test = x*y + z*w;
         if (test > 0.499) { // singularity at north pole
-            heading = 2 * Math.atan2(x,w);
+            heading = 2 * CMath.atan2(x,w);
             attitude = Math.PI/2;
             bank = 0;
         }
         if (test < -0.499) { // singularity at south pole
-            heading = -2 * Math.atan2(x,w);
+            heading = -2 * CMath.atan2(x,w);
             attitude = - Math.PI/2;
             bank = 0;
         }
@@ -4663,9 +4753,9 @@ Quaternion.prototype.toEuler = function(target,order){
             var sqx = x*x;
             var sqy = y*y;
             var sqz = z*z;
-            heading = Math.atan2(2*y*w - 2*x*z , 1 - 2*sqy - 2*sqz); // Heading
+            heading = CMath.atan2(2*y*w - 2*x*z , 1 - 2*sqy - 2*sqz); // Heading
             attitude = Math.asin(2*test); // attitude
-            bank = Math.atan2(2*x*w - 2*y*z , 1 - 2*sqx - 2*sqz); // bank
+            bank = CMath.atan2(2*x*w - 2*y*z , 1 - 2*sqx - 2*sqz); // bank
         }
         break;
     default:
@@ -4688,12 +4778,12 @@ Quaternion.prototype.toEuler = function(target,order){
 Quaternion.prototype.setFromEuler = function ( x, y, z, order ) {
     order = order || "XYZ";
 
-    var c1 = Math.cos( x / 2 );
-    var c2 = Math.cos( y / 2 );
-    var c3 = Math.cos( z / 2 );
-    var s1 = Math.sin( x / 2 );
-    var s2 = Math.sin( y / 2 );
-    var s3 = Math.sin( z / 2 );
+    var c1 = CMath.cos( x / 2 );
+    var c2 = CMath.cos( y / 2 );
+    var c3 = CMath.cos( z / 2 );
+    var s1 = CMath.sin( x / 2 );
+    var s2 = CMath.sin( y / 2 );
+    var s3 = CMath.sin( z / 2 );
 
     if ( order === 'XYZ' ) {
 
@@ -4789,9 +4879,9 @@ Quaternion.prototype.slerp = function (toQuat, t, target) {
     if ( (1.0 - cosom) > 0.000001 ) {
         // standard case (slerp)
         omega  = Math.acos(cosom);
-        sinom  = Math.sin(omega);
-        scale0 = Math.sin((1.0 - t) * omega) / sinom;
-        scale1 = Math.sin(t * omega) / sinom;
+        sinom  = CMath.sin(omega);
+        scale0 = CMath.sin((1.0 - t) * omega) / sinom;
+        scale1 = CMath.sin(t * omega) / sinom;
     } else {
         // "from" and "to" quaternions are very close
         //  ... so we can do a linear interpolation
@@ -4836,7 +4926,7 @@ Quaternion.prototype.integrate = function(angularVelocity, dt, angularFactor, ta
 
     return target;
 };
-},{"./Vec3":31}],30:[function(_dereq_,module,exports){
+},{"./CMath":27,"./Vec3":32}],31:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('./Vec3');
 var Quaternion = _dereq_('./Quaternion');
 
@@ -4941,7 +5031,7 @@ Transform.vectorToLocalFrame = function(position, quaternion, worldVector, resul
     return result;
 };
 
-},{"./Quaternion":29,"./Vec3":31}],31:[function(_dereq_,module,exports){
+},{"./Quaternion":30,"./Vec3":32}],32:[function(_dereq_,module,exports){
 module.exports = Vec3;
 
 var Mat3 = _dereq_('./Mat3');
@@ -5425,7 +5515,7 @@ Vec3.prototype.isAntiparallelTo = function(v,precision){
 Vec3.prototype.clone = function(){
     return new Vec3(this.x, this.y, this.z);
 };
-},{"./Mat3":28}],32:[function(_dereq_,module,exports){
+},{"./Mat3":29}],33:[function(_dereq_,module,exports){
 module.exports = Body;
 
 var EventTarget = _dereq_('../utils/EventTarget');
@@ -6421,7 +6511,7 @@ Body.prototype.updateHasTrigger = function () {
     }
 }
 
-},{"../collision/AABB":3,"../material/Material":26,"../math/Mat3":28,"../math/Quaternion":29,"../math/Vec3":31,"../shapes/Box":38,"../shapes/Shape":44,"../utils/EventTarget":50,"../world/World":57}],33:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../material/Material":26,"../math/Mat3":29,"../math/Quaternion":30,"../math/Vec3":32,"../shapes/Box":39,"../shapes/Shape":45,"../utils/EventTarget":51,"../world/World":58}],34:[function(_dereq_,module,exports){
 var Body = _dereq_('./Body');
 var Vec3 = _dereq_('../math/Vec3');
 var Quaternion = _dereq_('../math/Quaternion');
@@ -7125,12 +7215,13 @@ function resolveSingleBilateral(body1, pos1, body2, pos2, normal, impulse){
 
     return impulse;
 }
-},{"../collision/Ray":10,"../collision/RaycastResult":11,"../math/Quaternion":29,"../math/Vec3":31,"../objects/WheelInfo":37,"./Body":32}],34:[function(_dereq_,module,exports){
+},{"../collision/Ray":10,"../collision/RaycastResult":11,"../math/Quaternion":30,"../math/Vec3":32,"../objects/WheelInfo":38,"./Body":33}],35:[function(_dereq_,module,exports){
 var Body = _dereq_('./Body');
 var Sphere = _dereq_('../shapes/Sphere');
 var Box = _dereq_('../shapes/Box');
 var Vec3 = _dereq_('../math/Vec3');
 var HingeConstraint = _dereq_('../constraints/HingeConstraint');
+var CMath = _dereq_('../math/CMath');
 
 module.exports = RigidVehicle;
 
@@ -7225,8 +7316,8 @@ RigidVehicle.prototype.setSteeringValue = function(value, wheelIndex){
     // Set angle of the hinge axis
     var axis = this.wheelAxes[wheelIndex];
 
-    var c = Math.cos(value),
-        s = Math.sin(value),
+    var c = CMath.cos(value),
+        s = CMath.sin(value),
         x = axis.x,
         y = axis.y;
     this.constraints[wheelIndex].axisA.set(
@@ -7347,7 +7438,7 @@ RigidVehicle.prototype.getWheelSpeed = function(wheelIndex){
     return w.dot(worldAxis);
 };
 
-},{"../constraints/HingeConstraint":16,"../math/Vec3":31,"../shapes/Box":38,"../shapes/Sphere":45,"./Body":32}],35:[function(_dereq_,module,exports){
+},{"../constraints/HingeConstraint":16,"../math/CMath":27,"../math/Vec3":32,"../shapes/Box":39,"../shapes/Sphere":46,"./Body":33}],36:[function(_dereq_,module,exports){
 module.exports = SPHSystem;
 
 var Shape = _dereq_('../shapes/Shape');
@@ -7562,7 +7653,7 @@ SPHSystem.prototype.nablaw = function(r){
     return nabla;
 };
 
-},{"../material/Material":26,"../math/Quaternion":29,"../math/Vec3":31,"../objects/Body":32,"../shapes/Particle":42,"../shapes/Shape":44}],36:[function(_dereq_,module,exports){
+},{"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"../shapes/Particle":43,"../shapes/Shape":45}],37:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 
 module.exports = Spring;
@@ -7757,7 +7848,7 @@ Spring.prototype.applyForce = function(){
     bodyB.torque.vadd(rj_x_f,bodyB.torque);
 };
 
-},{"../math/Vec3":31}],37:[function(_dereq_,module,exports){
+},{"../math/Vec3":32}],38:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 var Transform = _dereq_('../math/Transform');
 var RaycastResult = _dereq_('../collision/RaycastResult');
@@ -8040,7 +8131,7 @@ WheelInfo.prototype.updateWheel = function(chassis){
         this.clippedInvContactDotSuspension = 1.0;
     }
 };
-},{"../collision/RaycastResult":11,"../math/Transform":30,"../math/Vec3":31,"../utils/Utils":54}],38:[function(_dereq_,module,exports){
+},{"../collision/RaycastResult":11,"../math/Transform":31,"../math/Vec3":32,"../utils/Utils":55}],39:[function(_dereq_,module,exports){
 module.exports = Box;
 
 var Shape = _dereq_('./Shape');
@@ -8283,7 +8374,7 @@ Box.prototype.calculateWorldAABB = function(pos,quat,min,max){
     // });
 };
 
-},{"../math/Vec3":31,"./ConvexPolyhedron":39,"./Shape":44}],39:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./ConvexPolyhedron":40,"./Shape":45}],40:[function(_dereq_,module,exports){
 module.exports = ConvexPolyhedron;
 
 var Shape = _dereq_('./Shape');
@@ -9217,13 +9308,14 @@ ConvexPolyhedron.project = function(hull, axis, pos, quat, result){
     result[1] = min;
 };
 
-},{"../math/Quaternion":29,"../math/Transform":30,"../math/Vec3":31,"./Shape":44}],40:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"./Shape":45}],41:[function(_dereq_,module,exports){
 module.exports = Cylinder;
 
 var Shape = _dereq_('./Shape');
 var Vec3 = _dereq_('../math/Vec3');
 var Quaternion = _dereq_('../math/Quaternion');
 var ConvexPolyhedron = _dereq_('./ConvexPolyhedron');
+var CMath = _dereq_('../math/CMath');
 
 /**
  * @class Cylinder
@@ -9238,8 +9330,8 @@ var ConvexPolyhedron = _dereq_('./ConvexPolyhedron');
 function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
     if (isDirY) {
         var N = numSegments,
-        cos = Math.cos,
-        sin = Math.sin;
+        cos = CMath.cos,
+        sin = CMath.sin;
         var halfH = height / 2;
         var vertices = [];
         var indices = [];
@@ -9248,8 +9340,8 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
         var axes = [];
         var theta = Math.PI * 2 / N;
         for (var i = 0; i < N; i++) {
-            vertices.push(new Vec3(radiusTop * Math.cos(theta * i), halfH, radiusTop * Math.sin(theta * i)));
-            vertices.push(new Vec3(radiusTop * Math.cos(theta * i), -halfH, radiusTop * Math.sin(theta * i)));
+            vertices.push(new Vec3(radiusTop * cos(theta * i), halfH, radiusTop * sin(theta * i)));
+            vertices.push(new Vec3(radiusTop * cos(theta * i), -halfH, radiusTop * sin(theta * i)));
             if (i < N - 1) {
                 indices.push([2 * i + 2, 2 * i + 3, 2 * i + 1, 2 * i]);
                 tf.push(2 * i + 2);
@@ -9273,8 +9365,8 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
         faces = [],
         bottomface = [],
         topface = [],
-        cos = Math.cos,
-        sin = Math.sin;
+        cos = CMath.cos,
+        sin = CMath.sin;
 
     // First bottom point
     verts.push(new Vec3(radiusBottom*cos(0),
@@ -9329,7 +9421,7 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
 
 Cylinder.prototype = new ConvexPolyhedron();
 
-},{"../math/Quaternion":29,"../math/Vec3":31,"./ConvexPolyhedron":39,"./Shape":44}],41:[function(_dereq_,module,exports){
+},{"../math/CMath":27,"../math/Quaternion":30,"../math/Vec3":32,"./ConvexPolyhedron":40,"./Shape":45}],42:[function(_dereq_,module,exports){
 var Shape = _dereq_('./Shape');
 var ConvexPolyhedron = _dereq_('./ConvexPolyhedron');
 var Vec3 = _dereq_('../math/Vec3');
@@ -10015,7 +10107,7 @@ Heightfield.prototype.setHeightsFromImage = function(image, scale){
     this.updateMinValue();
     this.update();
 };
-},{"../math/Vec3":31,"../utils/Utils":54,"./ConvexPolyhedron":39,"./Shape":44}],42:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"../utils/Utils":55,"./ConvexPolyhedron":40,"./Shape":45}],43:[function(_dereq_,module,exports){
 module.exports = Particle;
 
 var Shape = _dereq_('./Shape');
@@ -10062,7 +10154,7 @@ Particle.prototype.calculateWorldAABB = function(pos,quat,min,max){
     max.copy(pos);
 };
 
-},{"../math/Vec3":31,"./Shape":44}],43:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./Shape":45}],44:[function(_dereq_,module,exports){
 module.exports = Plane;
 
 var Shape = _dereq_('./Shape');
@@ -10126,7 +10218,7 @@ Plane.prototype.calculateWorldAABB = function(pos, quat, min, max){
 Plane.prototype.updateBoundingSphereRadius = function(){
     this.boundingSphereRadius = Number.MAX_VALUE;
 };
-},{"../math/Vec3":31,"./Shape":44}],44:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./Shape":45}],45:[function(_dereq_,module,exports){
 module.exports = Shape;
 
 var EventTarget = _dereq_('../utils/EventTarget');
@@ -10248,7 +10340,7 @@ Shape.types = {
 };
 
 
-},{"../material/Material":26,"../math/Quaternion":29,"../math/Vec3":31,"../utils/EventTarget":50,"./Shape":44}],45:[function(_dereq_,module,exports){
+},{"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../utils/EventTarget":51,"./Shape":45}],46:[function(_dereq_,module,exports){
 module.exports = Sphere;
 
 var Shape = _dereq_('./Shape');
@@ -10308,7 +10400,7 @@ Sphere.prototype.calculateWorldAABB = function(pos,quat,min,max){
     }
 };
 
-},{"../math/Vec3":31,"./Shape":44}],46:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./Shape":45}],47:[function(_dereq_,module,exports){
 module.exports = Trimesh;
 
 var Shape = _dereq_('./Shape');
@@ -10317,6 +10409,7 @@ var Quaternion = _dereq_('../math/Quaternion');
 var Transform = _dereq_('../math/Transform');
 var AABB = _dereq_('../collision/AABB');
 var Octree = _dereq_('../utils/Octree');
+var CMath = _dereq_('../math/CMath');
 
 /**
  * @class Trimesh
@@ -10848,9 +10941,9 @@ Trimesh.createTorus = function (radius, tube, radialSegments, tubularSegments, a
             var u = i / tubularSegments * arc;
             var v = j / radialSegments * Math.PI * 2;
 
-            var x = ( radius + tube * Math.cos( v ) ) * Math.cos( u );
-            var y = ( radius + tube * Math.cos( v ) ) * Math.sin( u );
-            var z = tube * Math.sin( v );
+            var x = ( radius + tube * CMath.cos( v ) ) * CMath.cos( u );
+            var y = ( radius + tube * CMath.cos( v ) ) * CMath.sin( u );
+            var z = tube * CMath.sin( v );
 
             vertices.push( x, y, z );
         }
@@ -10871,7 +10964,7 @@ Trimesh.createTorus = function (radius, tube, radialSegments, tubularSegments, a
     return new Trimesh(vertices, indices);
 };
 
-},{"../collision/AABB":3,"../math/Quaternion":29,"../math/Transform":30,"../math/Vec3":31,"../utils/Octree":51,"./Shape":44}],47:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../math/CMath":27,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../utils/Octree":52,"./Shape":45}],48:[function(_dereq_,module,exports){
 module.exports = GSSolver;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -11013,7 +11106,7 @@ GSSolver.prototype.solve = function(dt,world){
     return iter;
 };
 
-},{"../math/Quaternion":29,"../math/Vec3":31,"./Solver":48}],48:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Vec3":32,"./Solver":49}],49:[function(_dereq_,module,exports){
 module.exports = Solver;
 
 /**
@@ -11074,7 +11167,7 @@ Solver.prototype.removeAllEquations = function(){
 };
 
 
-},{}],49:[function(_dereq_,module,exports){
+},{}],50:[function(_dereq_,module,exports){
 module.exports = SplitSolver;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -11229,7 +11322,7 @@ SplitSolver.prototype.solve = function(dt,world){
 function sortById(a, b){
     return b.id - a.id;
 }
-},{"../math/Quaternion":29,"../math/Vec3":31,"../objects/Body":32,"./Solver":48}],50:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"./Solver":49}],51:[function(_dereq_,module,exports){
 /**
  * Base class for objects that dispatches events.
  * @class EventTarget
@@ -11330,7 +11423,7 @@ EventTarget.prototype = {
     }
 };
 
-},{}],51:[function(_dereq_,module,exports){
+},{}],52:[function(_dereq_,module,exports){
 var AABB = _dereq_('../collision/AABB');
 var Vec3 = _dereq_('../math/Vec3');
 
@@ -11561,7 +11654,7 @@ OctreeNode.prototype.removeEmptyNodes = function() {
     }
 };
 
-},{"../collision/AABB":3,"../math/Vec3":31}],52:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../math/Vec3":32}],53:[function(_dereq_,module,exports){
 module.exports = Pool;
 
 /**
@@ -11638,7 +11731,7 @@ Pool.prototype.resize = function (size) {
 };
 
 
-},{}],53:[function(_dereq_,module,exports){
+},{}],54:[function(_dereq_,module,exports){
 module.exports = TupleDictionary;
 
 /**
@@ -11745,7 +11838,7 @@ TupleDictionary.prototype.getKeyByIndex = function(index) {
 TupleDictionary.prototype.getDataByKey = function(Key) {
     return  this.data[Key];
 };
-},{}],54:[function(_dereq_,module,exports){
+},{}],55:[function(_dereq_,module,exports){
 function Utils(){}
 
 module.exports = Utils;
@@ -11770,7 +11863,7 @@ Utils.defaults = function(options, defaults){
     return options;
 };
 
-},{}],55:[function(_dereq_,module,exports){
+},{}],56:[function(_dereq_,module,exports){
 module.exports = Vec3Pool;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -11796,7 +11889,7 @@ Vec3Pool.prototype.constructObject = function(){
     return new Vec3();
 };
 
-},{"../math/Vec3":31,"./Pool":52}],56:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./Pool":53}],57:[function(_dereq_,module,exports){
 module.exports = Narrowphase;
 
 var AABB = _dereq_('../collision/AABB');
@@ -13673,7 +13766,7 @@ Narrowphase.prototype.sphereHeightfield = function (
     }
 };
 
-},{"../collision/AABB":3,"../collision/Ray":10,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../math/Quaternion":29,"../math/Transform":30,"../math/Vec3":31,"../objects/Body":32,"../shapes/ConvexPolyhedron":39,"../shapes/Shape":44,"../solver/Solver":48,"../utils/Vec3Pool":55}],57:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../collision/Ray":10,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../objects/Body":33,"../shapes/ConvexPolyhedron":40,"../shapes/Shape":45,"../solver/Solver":49,"../utils/Vec3Pool":56}],58:[function(_dereq_,module,exports){
 /* global performance */
 
 module.exports = World;
@@ -14910,6 +15003,6 @@ World.prototype.emitCollisionEvents = function () {
     this.contacts.length = 0;
 };
 
-},{"../collision/AABB":3,"../collision/ArrayCollisionMatrix":4,"../collision/NaiveBroadphase":7,"../collision/ObjectCollisionMatrix":8,"../collision/OverlapKeeper":9,"../collision/Ray":10,"../collision/RaycastResult":11,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../material/ContactMaterial":25,"../material/Material":26,"../math/Quaternion":29,"../math/Vec3":31,"../objects/Body":32,"../shapes/Shape":44,"../solver/GSSolver":47,"../utils/EventTarget":50,"../utils/TupleDictionary":53,"./Narrowphase":56}]},{},[2])
+},{"../collision/AABB":3,"../collision/ArrayCollisionMatrix":4,"../collision/NaiveBroadphase":7,"../collision/ObjectCollisionMatrix":8,"../collision/OverlapKeeper":9,"../collision/Ray":10,"../collision/RaycastResult":11,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../material/ContactMaterial":25,"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"../shapes/Shape":45,"../solver/GSSolver":48,"../utils/EventTarget":51,"../utils/TupleDictionary":54,"./Narrowphase":57}]},{},[2])
 (2)
 });
