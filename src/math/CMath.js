@@ -70,16 +70,16 @@ Object.defineProperty(CMath, 'digit', {
     'get': function () { return this._digit; },
     'set': function (v) {
         this._digit = v;
-        if (this._sign == 1) calculateSinByDigit(v);
+        if (this._mode == 1) calculateSinByDigit(v);
     }
 });
 
-CMath._sign = 0;
-Object.defineProperty(CMath, 'sign', {
-    'get': function () { return this._sign; },
+CMath._mode = 0;
+Object.defineProperty(CMath, 'mode', {
+    'get': function () { return this._mode; },
     'set': function (v) {
-        if (this._sign != v) {
-            this._sign = v;
+        if (this._mode != v) {
+            this._mode = v;
             if (v == 0) {
                 CMath.sin = Math.sin;
                 CMath.cos = Math.cos;
@@ -94,6 +94,6 @@ Object.defineProperty(CMath, 'sign', {
         }
     }
 });
-CMath.sign = 2;
+CMath.mode = 2;
 CMath.digit = 7;
 module.exports = CMath;
