@@ -94,6 +94,5 @@ Object.defineProperty(CMath, 'mode', {
         }
     }
 });
-CMath.mode = 2;
-CMath.digit = 7;
+
 module.exports = CMath;
