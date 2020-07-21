@@ -1,4 +1,4 @@
-// Mon, 20 Jul 2020 10:46:38 GMT
+// Tue, 21 Jul 2020 07:42:17 GMT
 
 /*
  * Copyright (c) 2015 cannon.js Authors
@@ -26,7 +26,7 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.CANNON=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 module.exports={
   "name": "@cocos/cannon",
-  "version": "1.1.1-exp.2",
+  "version": "1.1.1-exp.3",
   "description": "A lightweight 3D physics engine written in JavaScript.",
   "homepage": "https://github.com/cocos-creator/cannon.js",
   "author": "Stefan Hedman <schteppe@gmail.com> (http://steffe.se), JayceLai",
@@ -3954,16 +3954,16 @@ Object.defineProperty(CMath, 'digit', {
     'get': function () { return this._digit; },
     'set': function (v) {
         this._digit = v;
-        if (this._sign == 1) calculateSinByDigit(v);
+        if (this._mode == 1) calculateSinByDigit(v);
     }
 });
 
-CMath._sign = 0;
-Object.defineProperty(CMath, 'sign', {
-    'get': function () { return this._sign; },
+CMath._mode = 0;
+Object.defineProperty(CMath, 'mode', {
+    'get': function () { return this._mode; },
     'set': function (v) {
-        if (this._sign != v) {
-            this._sign = v;
+        if (this._mode != v) {
+            this._mode = v;
             if (v == 0) {
                 CMath.sin = Math.sin;
                 CMath.cos = Math.cos;
@@ -3978,8 +3978,7 @@ Object.defineProperty(CMath, 'sign', {
         }
     }
 });
-CMath.sign = 2;
-CMath.digit = 7;
+
 module.exports = CMath;
 
 },{}],28:[function(_dereq_,module,exports){
