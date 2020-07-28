@@ -268,7 +268,7 @@ declare namespace CANNON {
         axisA: Vec3;
         pivotB: Vec3;
         axisB: Vec3;
-        equations: ContactEquation[] | RotationalEquation[] | RotationalMotorEquation[];
+        equations: any[];
         constructor (bodyA: Body, bodyB: Body, options?: IHingeConstraintOptions);
 
         public enableMotor (): void;
@@ -355,8 +355,7 @@ declare namespace CANNON {
         axisB: Vec3;
         maxAngle: number;
 
-        constructor (bodyA: Body, bodyB: Body);
-        computeB (): void;
+        constructor (bodyA: Body, bodyB: Body);        
     }
 
     class RotationalMotorEquation extends Equation {
@@ -367,8 +366,7 @@ declare namespace CANNON {
         public invIj: Mat3;
         public targetVelocity: number;
 
-        constructor (bodyA: Body, bodyB: Body, maxForce?: number);
-        computeB (): void;
+        constructor (bodyA: Body, bodyB: Body, maxForce?: number);        
     }
 
     class ContactEquation extends Equation {
