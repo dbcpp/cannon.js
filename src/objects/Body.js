@@ -9,6 +9,7 @@ var Material = require('../material/Material');
 var AABB = require('../collision/AABB');
 var Box = require('../shapes/Box');
 var World = require('../world/World');
+const eMath = require('../math/eMath');
 
 /**
  * Base class for all body types.
@@ -509,7 +510,7 @@ Body.prototype.sleepTick = function(time){
     if(this.allowSleep){
         var sleepState = this.sleepState;
         var speedSquared = this.velocity.norm2() + this.angularVelocity.norm2();
-        var speedLimitSquared = Math.pow(this.sleepSpeedLimit,2);
+        var speedLimitSquared = eMath.pow(this.sleepSpeedLimit,2);
         if(sleepState===Body.AWAKE && speedSquared < speedLimitSquared){
             this.sleepState = Body.SLEEPY; // Sleepy
             this.timeLastSleepy = time;

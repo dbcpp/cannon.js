@@ -8,6 +8,7 @@ var Box = require('../shapes/Box');
 var RaycastResult = require('../collision/RaycastResult');
 var Shape = require('../shapes/Shape');
 var AABB = require('../collision/AABB');
+const eMath = require('../math/eMath');
 
 /**
  * A line in 3D space that intersects bodies and return points.
@@ -313,7 +314,6 @@ Ray.prototype.intersectPlane = function(shape, quat, position, body, reportedSha
     }
 
     var n_dot_dir = worldNormal.dot(direction);
-
     if (Math.abs(n_dot_dir) < this.precision) {
         // No intersection
         return;

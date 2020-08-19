@@ -4,6 +4,7 @@ var Vec3 = require('../math/Vec3');
 var Mat3 = require('../math/Mat3');
 var Equation = require('./Equation');
 var CMath = require('../math/CMath');
+const eMath = require('../math/eMath');
 
 /**
  * Rotational constraint. Works to keep the local vectors orthogonal to each other in world space.
@@ -25,8 +26,7 @@ function RotationalEquation(bodyA, bodyB, options){
 
     this.axisA = options.axisA ? options.axisA.clone() : new Vec3(1, 0, 0);
     this.axisB = options.axisB ? options.axisB.clone() : new Vec3(0, 1, 0);
-
-    this.maxAngle = Math.PI / 2;
+    this.maxAngle = eMath.PI / 2;
 }
 
 RotationalEquation.prototype = new Equation();

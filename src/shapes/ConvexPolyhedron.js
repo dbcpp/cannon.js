@@ -4,6 +4,7 @@ var Shape = require('./Shape');
 var Vec3 = require('../math/Vec3');
 var Quaternion = require('../math/Quaternion');
 var Transform = require('../math/Transform');
+const eMath = require('../math/eMath');
 
 /**
  * A set of polygons describing a convex shape.
@@ -719,7 +720,7 @@ ConvexPolyhedron.prototype.updateBoundingSphereRadius = function(){
             max2 = norm2;
         }
     }
-    this.boundingSphereRadius = Math.sqrt(max2);
+    this.boundingSphereRadius = eMath.sqrt(max2);
 };
 
 var tempWorldVertex = new Vec3();
@@ -773,7 +774,7 @@ ConvexPolyhedron.prototype.calculateWorldAABB = function(pos,quat,min,max){
  * @return {Number}
  */
 ConvexPolyhedron.prototype.volume = function(){
-    return 4.0 * Math.PI * this.boundingSphereRadius / 3.0;
+    return 4.0 * eMath.PI * this.boundingSphereRadius / 3.0;
 };
 
 /**

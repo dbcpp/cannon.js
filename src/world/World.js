@@ -21,6 +21,7 @@ var RaycastResult = require('../collision/RaycastResult');
 var AABB = require('../collision/AABB');
 var Ray = require('../collision/Ray');
 var NaiveBroadphase = require('../collision/NaiveBroadphase');
+const eMath = require('../math/eMath');
 
 /**
  * The physics world
@@ -795,7 +796,7 @@ World.prototype.internalStep = function(dt){
             bj.type !== Body.STATIC
         ){
             var speedSquaredB = bj.velocity.norm2() + bj.angularVelocity.norm2();
-            var speedLimitSquaredB = Math.pow(bj.sleepSpeedLimit,2);
+            var speedLimitSquaredB = eMath.pow(bj.sleepSpeedLimit,2);
             if(speedSquaredB >= speedLimitSquaredB*2){
                 bi._wakeUpAfterNarrowphase = true;
             }
@@ -808,7 +809,7 @@ World.prototype.internalStep = function(dt){
             bi.type !== Body.STATIC
         ){
             var speedSquaredA = bi.velocity.norm2() + bi.angularVelocity.norm2();
-            var speedLimitSquaredA = Math.pow(bi.sleepSpeedLimit,2);
+            var speedLimitSquaredA = eMath.pow(bi.sleepSpeedLimit,2);
             if(speedSquaredA >= speedLimitSquaredA*2){
                 bj._wakeUpAfterNarrowphase = true;
             }
@@ -870,7 +871,7 @@ World.prototype.internalStep = function(dt){
     solver.removeAllEquations();
 
     // Apply damping, see http://code.google.com/p/bullet/issues/detail?id=74 for details
-    var pow = Math.pow;
+    var pow = eMath.pow;
     for(i=0; i!==N; i++){
         var bi = bodies[i];
         if(bi.type & DYNAMIC){ // Only for dynamic bodies

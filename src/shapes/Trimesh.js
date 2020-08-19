@@ -7,6 +7,7 @@ var Transform = require('../math/Transform');
 var AABB = require('../collision/AABB');
 var Octree = require('../utils/Octree');
 var CMath = require('../math/CMath');
+const eMath = require('../math/eMath');
 
 /**
  * @class Trimesh
@@ -446,7 +447,7 @@ Trimesh.prototype.updateBoundingSphereRadius = function(){
             max2 = norm2;
         }
     }
-    this.boundingSphereRadius = Math.sqrt(max2);
+    this.boundingSphereRadius = eMath.sqrt(max2);
 };
 
 var tempWorldVertex = new Vec3();
@@ -509,7 +510,7 @@ Trimesh.prototype.calculateWorldAABB = function(pos,quat,min,max){
  * @return {Number}
  */
 Trimesh.prototype.volume = function(){
-    return 4.0 * Math.PI * this.boundingSphereRadius / 3.0;
+    return 4.0 * eMath.PI * this.boundingSphereRadius / 3.0;
 };
 
 /**
@@ -528,7 +529,7 @@ Trimesh.createTorus = function (radius, tube, radialSegments, tubularSegments, a
     tube = tube || 0.5;
     radialSegments = radialSegments || 8;
     tubularSegments = tubularSegments || 6;
-    arc = arc || Math.PI * 2;
+    arc = arc || eMath.PI * 2;
 
     var vertices = [];
     var indices = [];
@@ -536,7 +537,7 @@ Trimesh.createTorus = function (radius, tube, radialSegments, tubularSegments, a
     for ( var j = 0; j <= radialSegments; j ++ ) {
         for ( var i = 0; i <= tubularSegments; i ++ ) {
             var u = i / tubularSegments * arc;
-            var v = j / radialSegments * Math.PI * 2;
+            var v = j / radialSegments * eMath.PI * 2;
 
             var x = ( radius + tube * CMath.cos( v ) ) * CMath.cos( u );
             var y = ( radius + tube * CMath.cos( v ) ) * CMath.sin( u );

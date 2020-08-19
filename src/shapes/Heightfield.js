@@ -2,6 +2,7 @@ var Shape = require('./Shape');
 var ConvexPolyhedron = require('./ConvexPolyhedron');
 var Vec3 = require('../math/Vec3');
 var Utils = require('../utils/Utils');
+const eMath = require('../math/eMath');
 
 module.exports = Heightfield;
 

@@ -12,6 +12,7 @@ var Solver = require('../solver/Solver');
 var Vec3Pool = require('../utils/Vec3Pool');
 var ContactEquation = require('../equations/ContactEquation');
 var FrictionEquation = require('../equations/FrictionEquation');
+const eMath = require('../math/eMath');
 
 /**
  * Helper class for the World. Generates ContactEquations.
@@ -353,7 +354,7 @@ Narrowphase.prototype.boxParticle = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,jus
 Narrowphase.prototype[Shape.types.SPHERE] =
 Narrowphase.prototype.sphereSphere = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,justTest){
     if(justTest){
-        return xi.distanceSquared(xj) < Math.pow(si.radius + sj.radius, 2);
+        return xi.distanceSquared(xj) < eMath.pow(si.radius + sj.radius, 2);
     }
 
     // We will have only one contact in this case
@@ -830,7 +831,7 @@ Narrowphase.prototype.sphereBox = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,justT
             var dot1 = box_to_sphere.dot(ns1);
             var dot2 = box_to_sphere.dot(ns2);
             if(dot1<h1 && dot1>-h1 && dot2<h2 && dot2>-h2){
-                var dist = Math.abs(dot-h-R);
+                var dist = eMath.abs(dot-h-R);
                 if(side_distance===null || dist < side_distance){
                     side_distance = dist;
                     side_dot1 = dot1;
@@ -957,7 +958,7 @@ Narrowphase.prototype.sphereBox = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,justT
                 dist.vsub(xj,dist);
 
                 // Distances in tangent direction and distance in the plane orthogonal to it
-                var tdist = Math.abs(orthonorm);
+                var tdist = eMath.abs(orthonorm);
                 var ndist = dist.norm();
 
                 if(tdist < sides[l].norm() && ndist<R){
@@ -1624,7 +1625,7 @@ Narrowphase.prototype.convexParticle = function(sj,si,xj,xi,qj,qi,bj,bi,rsi,rsj,
             // Check how much the particle penetrates the polygon plane.
             xi.vsub(verts[0],convexParticle_vertexToParticle);
             var penetration = -normal.dot(convexParticle_vertexToParticle);
-            if(minPenetration===null || Math.abs(penetration)<Math.abs(minPenetration)){
+            if(minPenetration===null || eMath.abs(penetration)<eMath.abs(minPenetration)){
 
                 if(justTest){
                     return true;
@@ -1709,10 +1710,10 @@ Narrowphase.prototype.convexHeightfield = function (
     Transform.pointToLocalFrame(hfPos, hfQuat, convexPos, localConvexPos);
 
     // Get the index of the data points to test against
-    var iMinX = Math.floor((localConvexPos.x - radius) / w) - 1,
-        iMaxX = Math.ceil((localConvexPos.x + radius) / w) + 1,
-        iMinY = Math.floor((localConvexPos.y - radius) / w) - 1,
-        iMaxY = Math.ceil((localConvexPos.y + radius) / w) + 1;
+    var iMinX = eMath.floor((localConvexPos.x - radius) / w) - 1,
+        iMaxX = eMath.ceil((localConvexPos.x + radius) / w) + 1,
+        iMinY = eMath.floor((localConvexPos.y - radius) / w) - 1,
+        iMaxY = eMath.ceil((localConvexPos.y + radius) / w) + 1;
 
     // Bail out if we are out of the terrain
     if(iMaxX < 0 || iMaxY < 0 || iMinX > data.length || iMinY > data[0].length){
@@ -1799,10 +1800,10 @@ Narrowphase.prototype.sphereHeightfield = function (
     Transform.pointToLocalFrame(hfPos, hfQuat, spherePos, localSpherePos);
 
     // Get the index of the data points to test against
-    var iMinX = Math.floor((localSpherePos.x - radius) / w) - 1,
-        iMaxX = Math.ceil((localSpherePos.x + radius) / w) + 1,
-        iMinY = Math.floor((localSpherePos.y - radius) / w) - 1,
-        iMaxY = Math.ceil((localSpherePos.y + radius) / w) + 1;
+    var iMinX = eMath.floor((localSpherePos.x - radius) / w) - 1,
+        iMaxX = eMath.ceil((localSpherePos.x + radius) / w) + 1,
+        iMinY = eMath.floor((localSpherePos.y - radius) / w) - 1,
+        iMaxY = eMath.ceil((localSpherePos.y + radius) / w) + 1;
 
     // Bail out if we are out of the terrain
     if(iMaxX < 0 || iMaxY < 0 || iMinX > data.length || iMinY > data[0].length){

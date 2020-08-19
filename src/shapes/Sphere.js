@@ -2,6 +2,7 @@ module.exports = Sphere;
 
 var Shape = require('./Shape');
 var Vec3 = require('../math/Vec3');
+const eMath = require('../math/eMath');
 
 /**
  * Spherical shape

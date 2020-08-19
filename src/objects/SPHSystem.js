@@ -6,6 +6,7 @@ var Quaternion = require('../math/Quaternion');
 var Particle = require('../shapes/Particle');
 var Body = require('../objects/Body');
 var Material = require('../material/Material');
+const eMath = require('../math/eMath');
 
 /**
  * Smoothed-particle hydrodynamics system
@@ -195,19 +196,19 @@ SPHSystem.prototype.update = function(){
 SPHSystem.prototype.w = function(r){
     // 315
     var h = this.smoothingRadius;
-    return 315.0/(64.0*Math.PI*Math.pow(h,9)) * Math.pow(h*h-r*r,3);
+    return 315.0/(64.0*eMath.PI*eMath.pow(h,9)) * eMath.pow(h*h-r*r,3);
 };
 
 // calculate gradient of the weight function
 SPHSystem.prototype.gradw = function(rVec,resultVec){
     var r = rVec.norm(),
         h = this.smoothingRadius;
-    rVec.mult(945.0/(32.0*Math.PI*Math.pow(h,9)) * Math.pow((h*h-r*r),2) , resultVec);
+    rVec.mult(945.0/(32.0*eMath.PI*eMath.pow(h,9)) * eMath.pow((h*h-r*r),2) , resultVec);
 };
 
 // Calculate nabla(W)
 SPHSystem.prototype.nablaw = function(r){
     var h = this.smoothingRadius;
-    var nabla = 945.0/(32.0*Math.PI*Math.pow(h,9)) * (h*h-r*r)*(7*r*r - 3*h*h);
+    var nabla = 945.0/(32.0*eMath.PI*eMath.pow(h,9)) * (h*h-r*r)*(7*r*r - 3*h*h);
     return nabla;
 };

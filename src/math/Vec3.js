@@ -1,6 +1,7 @@
 module.exports = Vec3;
 
 var Mat3 = require('./Mat3');
+const eMath = require('./eMath');
 
 /**
  * 3-dimensional vector

@@ -1,10 +1,10 @@
+const eMath = require("./eMath");
 
 
 var rad2ang = 180 / Math.PI;
 function radian2angle (rad) {
     return rad * rad2ang;
 }
-
 var sinArr = {};
 function calculateSinByDigit (digit) {
     if (sinArr.digit == digit) return;

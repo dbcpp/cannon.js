@@ -5,6 +5,7 @@ var Vec3 = require('../math/Vec3');
 var Quaternion = require('../math/Quaternion');
 var ConvexPolyhedron = require('./ConvexPolyhedron');
 var CMath = require('../math/CMath');
+const eMath = require('../math/eMath');
 
 /**
  * @class Cylinder
@@ -27,7 +28,7 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
         var tf = [0];
         var bf = [1];
         var axes = [];
-        var theta = Math.PI * 2 / N;
+        var theta = eMath.PI * 2 / N;
         for (var i = 0; i < N; i++) {
             vertices.push(new Vec3(radiusTop * cos(theta * i), halfH, radiusTop * sin(theta * i)));
             vertices.push(new Vec3(radiusTop * cos(theta * i), -halfH, radiusTop * sin(theta * i)));
@@ -70,8 +71,8 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
     topface.push(1);
 
     for(var i=0; i<N; i++){
-        var theta = 2*Math.PI/N * (i+1);
-        var thetaN = 2*Math.PI/N * (i+0.5);
+        var theta = 2*eMath.PI/N * (i+1);
+        var thetaN = 2*eMath.PI/N * (i+0.5);
         if(i<N-1){
             // Bottom
             verts.push(new Vec3(radiusBottom*cos(theta),

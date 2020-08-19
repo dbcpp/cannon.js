@@ -3,6 +3,7 @@ var Vec3 = require('../math/Vec3');
 var Quaternion = require('../math/Quaternion');
 var Shape = require('../shapes/Shape');
 var Plane = require('../shapes/Plane');
+const eMath = require('../math/eMath');
 
 module.exports = Broadphase;
 
@@ -105,7 +106,7 @@ var Broadphase_collisionPairs_r = new Vec3(), // Temp objects
 Broadphase.prototype.doBoundingSphereBroadphase = function(bodyA,bodyB,pairs1,pairs2){
     var r = Broadphase_collisionPairs_r;
     bodyB.position.vsub(bodyA.position,r);
-    var boundingRadiusSum2 = Math.pow(bodyA.boundingRadius + bodyB.boundingRadius, 2);
+    var boundingRadiusSum2 = eMath.pow(bodyA.boundingRadius + bodyB.boundingRadius, 2);
     var norm2 = r.norm2();
     if(norm2 < boundingRadiusSum2){
         pairs1.push(bodyA);
@@ -195,7 +196,7 @@ var bsc_dist = new Vec3();
 Broadphase.boundingSphereCheck = function(bodyA,bodyB){
     var dist = bsc_dist;
     bodyA.position.vsub(bodyB.position,dist);
-    return Math.pow(bodyA.shape.boundingSphereRadius + bodyB.shape.boundingSphereRadius,2) > dist.norm2();
+    return eMath.pow(bodyA.shape.boundingSphereRadius + bodyB.shape.boundingSphereRadius,2) > dist.norm2();
 };
 
 /**

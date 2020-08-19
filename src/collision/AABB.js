@@ -1,5 +1,6 @@
 var Vec3 = require('../math/Vec3');
 var Utils = require('../utils/Utils');
+const eMath = require('../math/eMath');
 
 module.exports = AABB;
 
@@ -118,12 +119,12 @@ AABB.prototype.clone = function(){
  * @param  {AABB} aabb
  */
 AABB.prototype.extend = function(aabb){
-    this.lowerBound.x = Math.min(this.lowerBound.x, aabb.lowerBound.x);
-    this.upperBound.x = Math.max(this.upperBound.x, aabb.upperBound.x);
-    this.lowerBound.y = Math.min(this.lowerBound.y, aabb.lowerBound.y);
-    this.upperBound.y = Math.max(this.upperBound.y, aabb.upperBound.y);
-    this.lowerBound.z = Math.min(this.lowerBound.z, aabb.lowerBound.z);
-    this.upperBound.z = Math.max(this.upperBound.z, aabb.upperBound.z);
+    this.lowerBound.x = eMath.min(this.lowerBound.x, aabb.lowerBound.x);
+    this.upperBound.x = eMath.max(this.upperBound.x, aabb.upperBound.x);
+    this.lowerBound.y = eMath.min(this.lowerBound.y, aabb.lowerBound.y);
+    this.upperBound.y = eMath.max(this.upperBound.y, aabb.upperBound.y);
+    this.lowerBound.z = eMath.min(this.lowerBound.z, aabb.lowerBound.z);
+    this.upperBound.z = eMath.max(this.upperBound.z, aabb.upperBound.z);
 };
 
 /**
@@ -301,10 +302,10 @@ AABB.prototype.overlapsRay = function(ray){
     var t5 = (this.lowerBound.z - ray.from.z) * dirFracZ;
     var t6 = (this.upperBound.z - ray.from.z) * dirFracZ;
 
-    // var tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)));
-    // var tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)));
-    var tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)), Math.min(t5, t6));
-    var tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)), Math.max(t5, t6));
+    // var tmin = eMath.max(eMath.max(eMath.min(t1, t2), eMath.min(t3, t4)));
+    // var tmax = eMath.min(eMath.min(eMath.max(t1, t2), eMath.max(t3, t4)));
+    var tmin = eMath.max(eMath.max(eMath.min(t1, t2), eMath.min(t3, t4)), eMath.min(t5, t6));
+    var tmax = eMath.min(eMath.min(eMath.max(t1, t2), eMath.max(t3, t4)), eMath.max(t5, t6));
 
     // if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
     if (tmax < 0){

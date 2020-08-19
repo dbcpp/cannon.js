@@ -106,9 +106,10 @@ module.exports = {
     CMath :                         _dereq_('./math/CMath'),
 };
 
-},{"../package.json":1,"./collision/AABB":3,"./collision/ArrayCollisionMatrix":4,"./collision/Broadphase":5,"./collision/GridBroadphase":6,"./collision/NaiveBroadphase":7,"./collision/ObjectCollisionMatrix":8,"./collision/Ray":10,"./collision/RaycastResult":11,"./collision/SAPBroadphase":12,"./constraints/ConeTwistConstraint":13,"./constraints/Constraint":14,"./constraints/DistanceConstraint":15,"./constraints/HingeConstraint":16,"./constraints/LockConstraint":17,"./constraints/PointToPointConstraint":18,"./equations/ContactEquation":20,"./equations/Equation":21,"./equations/FrictionEquation":22,"./equations/RotationalEquation":23,"./equations/RotationalMotorEquation":24,"./material/ContactMaterial":25,"./material/Material":26,"./math/CMath":27,"./math/Mat3":29,"./math/Quaternion":30,"./math/Transform":31,"./math/Vec3":32,"./objects/Body":33,"./objects/RaycastVehicle":34,"./objects/RigidVehicle":35,"./objects/SPHSystem":36,"./objects/Spring":37,"./shapes/Box":39,"./shapes/ConvexPolyhedron":40,"./shapes/Cylinder":41,"./shapes/Heightfield":42,"./shapes/Particle":43,"./shapes/Plane":44,"./shapes/Shape":45,"./shapes/Sphere":46,"./shapes/Trimesh":47,"./solver/GSSolver":48,"./solver/Solver":49,"./solver/SplitSolver":50,"./utils/EventTarget":51,"./utils/Octree":52,"./utils/Pool":53,"./utils/Vec3Pool":56,"./world/Narrowphase":57,"./world/World":58}],3:[function(_dereq_,module,exports){
+},{"../package.json":1,"./collision/AABB":3,"./collision/ArrayCollisionMatrix":4,"./collision/Broadphase":5,"./collision/GridBroadphase":6,"./collision/NaiveBroadphase":7,"./collision/ObjectCollisionMatrix":8,"./collision/Ray":10,"./collision/RaycastResult":11,"./collision/SAPBroadphase":12,"./constraints/ConeTwistConstraint":13,"./constraints/Constraint":14,"./constraints/DistanceConstraint":15,"./constraints/HingeConstraint":16,"./constraints/LockConstraint":17,"./constraints/PointToPointConstraint":18,"./equations/ContactEquation":20,"./equations/Equation":21,"./equations/FrictionEquation":22,"./equations/RotationalEquation":23,"./equations/RotationalMotorEquation":24,"./material/ContactMaterial":25,"./material/Material":26,"./math/CMath":27,"./math/Mat3":29,"./math/Quaternion":30,"./math/Transform":31,"./math/Vec3":32,"./objects/Body":34,"./objects/RaycastVehicle":35,"./objects/RigidVehicle":36,"./objects/SPHSystem":37,"./objects/Spring":38,"./shapes/Box":40,"./shapes/ConvexPolyhedron":41,"./shapes/Cylinder":42,"./shapes/Heightfield":43,"./shapes/Particle":44,"./shapes/Plane":45,"./shapes/Shape":46,"./shapes/Sphere":47,"./shapes/Trimesh":48,"./solver/GSSolver":49,"./solver/Solver":50,"./solver/SplitSolver":51,"./utils/EventTarget":52,"./utils/Octree":53,"./utils/Pool":54,"./utils/Vec3Pool":57,"./world/Narrowphase":58,"./world/World":59}],3:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 var Utils = _dereq_('../utils/Utils');
+const eMath = _dereq_('../math/eMath');
 
 module.exports = AABB;
 
@@ -227,12 +228,12 @@ AABB.prototype.clone = function(){
  * @param  {AABB} aabb
  */
 AABB.prototype.extend = function(aabb){
-    this.lowerBound.x = Math.min(this.lowerBound.x, aabb.lowerBound.x);
-    this.upperBound.x = Math.max(this.upperBound.x, aabb.upperBound.x);
-    this.lowerBound.y = Math.min(this.lowerBound.y, aabb.lowerBound.y);
-    this.upperBound.y = Math.max(this.upperBound.y, aabb.upperBound.y);
-    this.lowerBound.z = Math.min(this.lowerBound.z, aabb.lowerBound.z);
-    this.upperBound.z = Math.max(this.upperBound.z, aabb.upperBound.z);
+    this.lowerBound.x = eMath.min(this.lowerBound.x, aabb.lowerBound.x);
+    this.upperBound.x = eMath.max(this.upperBound.x, aabb.upperBound.x);
+    this.lowerBound.y = eMath.min(this.lowerBound.y, aabb.lowerBound.y);
+    this.upperBound.y = eMath.max(this.upperBound.y, aabb.upperBound.y);
+    this.lowerBound.z = eMath.min(this.lowerBound.z, aabb.lowerBound.z);
+    this.upperBound.z = eMath.max(this.upperBound.z, aabb.upperBound.z);
 };
 
 /**
@@ -410,10 +411,10 @@ AABB.prototype.overlapsRay = function(ray){
     var t5 = (this.lowerBound.z - ray.from.z) * dirFracZ;
     var t6 = (this.upperBound.z - ray.from.z) * dirFracZ;
 
-    // var tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)));
-    // var tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)));
-    var tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)), Math.min(t5, t6));
-    var tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)), Math.max(t5, t6));
+    // var tmin = eMath.max(eMath.max(eMath.min(t1, t2), eMath.min(t3, t4)));
+    // var tmax = eMath.min(eMath.min(eMath.max(t1, t2), eMath.max(t3, t4)));
+    var tmin = eMath.max(eMath.max(eMath.min(t1, t2), eMath.min(t3, t4)), eMath.min(t5, t6));
+    var tmax = eMath.min(eMath.min(eMath.max(t1, t2), eMath.max(t3, t4)), eMath.max(t5, t6));
 
     // if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
     if (tmax < 0){
@@ -429,7 +430,7 @@ AABB.prototype.overlapsRay = function(ray){
 
     return true;
 };
-},{"../math/Vec3":32,"../utils/Utils":55}],4:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"../math/eMath":33,"../utils/Utils":56}],4:[function(_dereq_,module,exports){
 module.exports = ArrayCollisionMatrix;
 
 /**
@@ -508,6 +509,7 @@ var Vec3 = _dereq_('../math/Vec3');
 var Quaternion = _dereq_('../math/Quaternion');
 var Shape = _dereq_('../shapes/Shape');
 var Plane = _dereq_('../shapes/Plane');
+const eMath = _dereq_('../math/eMath');
 
 module.exports = Broadphase;
 
@@ -610,7 +612,7 @@ var Broadphase_collisionPairs_r = new Vec3(), // Temp objects
 Broadphase.prototype.doBoundingSphereBroadphase = function(bodyA,bodyB,pairs1,pairs2){
     var r = Broadphase_collisionPairs_r;
     bodyB.position.vsub(bodyA.position,r);
-    var boundingRadiusSum2 = Math.pow(bodyA.boundingRadius + bodyB.boundingRadius, 2);
+    var boundingRadiusSum2 = eMath.pow(bodyA.boundingRadius + bodyB.boundingRadius, 2);
     var norm2 = r.norm2();
     if(norm2 < boundingRadiusSum2){
         pairs1.push(bodyA);
@@ -700,7 +702,7 @@ var bsc_dist = new Vec3();
 Broadphase.boundingSphereCheck = function(bodyA,bodyB){
     var dist = bsc_dist;
     bodyA.position.vsub(bodyB.position,dist);
-    return Math.pow(bodyA.shape.boundingSphereRadius + bodyB.shape.boundingSphereRadius,2) > dist.norm2();
+    return eMath.pow(bodyA.shape.boundingSphereRadius + bodyB.shape.boundingSphereRadius,2) > dist.norm2();
 };
 
 /**
@@ -715,7 +717,7 @@ Broadphase.prototype.aabbQuery = function(world, aabb, result){
     console.warn('.aabbQuery is not implemented in this Broadphase subclass.');
     return [];
 };
-},{"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"../shapes/Plane":44,"../shapes/Shape":45}],6:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Vec3":32,"../math/eMath":33,"../objects/Body":34,"../shapes/Plane":45,"../shapes/Shape":46}],6:[function(_dereq_,module,exports){
 module.exports = GridBroadphase;
 
 var Broadphase = _dereq_('./Broadphase');
@@ -945,7 +947,7 @@ GridBroadphase.prototype.collisionPairs = function(world,pairs1,pairs2){
     this.makePairsUnique(pairs1,pairs2);
 };
 
-},{"../math/Vec3":32,"../shapes/Shape":45,"./Broadphase":5}],7:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"../shapes/Shape":46,"./Broadphase":5}],7:[function(_dereq_,module,exports){
 module.exports = NaiveBroadphase;
 
 var Broadphase = _dereq_('./Broadphase');
@@ -1200,6 +1202,7 @@ var Box = _dereq_('../shapes/Box');
 var RaycastResult = _dereq_('../collision/RaycastResult');
 var Shape = _dereq_('../shapes/Shape');
 var AABB = _dereq_('../collision/AABB');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * A line in 3D space that intersects bodies and return points.
@@ -1505,7 +1508,6 @@ Ray.prototype.intersectPlane = function(shape, quat, position, body, reportedSha
     }
 
     var n_dot_dir = worldNormal.dot(direction);
-
     if (Math.abs(n_dot_dir) < this.precision) {
         // No intersection
         return;
@@ -2016,7 +2018,7 @@ function distanceFromIntersection(from, direction, position) {
 }
 
 
-},{"../collision/AABB":3,"../collision/RaycastResult":11,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../shapes/Box":39,"../shapes/ConvexPolyhedron":40,"../shapes/Shape":45}],11:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../collision/RaycastResult":11,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../math/eMath":33,"../shapes/Box":40,"../shapes/ConvexPolyhedron":41,"../shapes/Shape":46}],11:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 
 module.exports = RaycastResult;
@@ -2463,7 +2465,7 @@ SAPBroadphase.prototype.aabbQuery = function(world, aabb, result){
 
     return result;
 };
-},{"../collision/Broadphase":5,"../shapes/Shape":45}],13:[function(_dereq_,module,exports){
+},{"../collision/Broadphase":5,"../shapes/Shape":46}],13:[function(_dereq_,module,exports){
 module.exports = ConeTwistConstraint;
 
 var Constraint = _dereq_('./Constraint');
@@ -2647,7 +2649,7 @@ Constraint.prototype.disable = function(){
 
 Constraint.idCounter = 0;
 
-},{"../utils/Utils":55}],15:[function(_dereq_,module,exports){
+},{"../utils/Utils":56}],15:[function(_dereq_,module,exports){
 module.exports = DistanceConstraint;
 
 var Constraint = _dereq_('./Constraint');
@@ -3588,6 +3590,7 @@ var Vec3 = _dereq_('../math/Vec3');
 var Mat3 = _dereq_('../math/Mat3');
 var Equation = _dereq_('./Equation');
 var CMath = _dereq_('../math/CMath');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * Rotational constraint. Works to keep the local vectors orthogonal to each other in world space.
@@ -3609,8 +3612,7 @@ function RotationalEquation(bodyA, bodyB, options){
 
     this.axisA = options.axisA ? options.axisA.clone() : new Vec3(1, 0, 0);
     this.axisB = options.axisB ? options.axisB.clone() : new Vec3(0, 1, 0);
-
-    this.maxAngle = Math.PI / 2;
+    this.maxAngle = eMath.PI / 2;
 }
 
 RotationalEquation.prototype = new Equation();
@@ -3653,7 +3655,7 @@ RotationalEquation.prototype.computeB = function(h){
 };
 
 
-},{"../math/CMath":27,"../math/Mat3":29,"../math/Vec3":32,"./Equation":21}],24:[function(_dereq_,module,exports){
+},{"../math/CMath":27,"../math/Mat3":29,"../math/Vec3":32,"../math/eMath":33,"./Equation":21}],24:[function(_dereq_,module,exports){
 module.exports = RotationalMotorEquation;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -3806,7 +3808,7 @@ function ContactMaterial(m1, m2, options){
 
 ContactMaterial.idCounter = 0;
 
-},{"../utils/Utils":55}],26:[function(_dereq_,module,exports){
+},{"../utils/Utils":56}],26:[function(_dereq_,module,exports){
 module.exports = Material;
 
 /**
@@ -3857,13 +3859,13 @@ function Material(options){
 Material.idCounter = 0;
 
 },{}],27:[function(_dereq_,module,exports){
+const eMath = _dereq_("./eMath");
 
 
 var rad2ang = 180 / Math.PI;
 function radian2angle (rad) {
     return rad * rad2ang;
 }
-
 var sinArr = {};
 function calculateSinByDigit (digit) {
     if (sinArr.digit == digit) return;
@@ -3956,7 +3958,7 @@ Object.defineProperty(CMath, 'mode', {
 
 module.exports = CMath;
 
-},{}],28:[function(_dereq_,module,exports){
+},{"./eMath":33}],28:[function(_dereq_,module,exports){
 module.exports = JacobianElement;
 
 var Vec3 = _dereq_('./Vec3');
@@ -4429,6 +4431,7 @@ module.exports = Quaternion;
 
 var Vec3 = _dereq_('./Vec3');
 var CMath = _dereq_('./CMath');
+const eMath = _dereq_('./eMath');
 
 /**
  * A Quaternion describes a rotation in 3D space. The Quaternion is mathematically defined as Q = x*i + y*j + z*k + w, where (i,j,k) are imaginary basis vectors. (x,y,z) can be seen as a vector related to the axis of rotation, while the real multiplier, w, is related to the amount of rotation.
@@ -4915,7 +4918,7 @@ Quaternion.prototype.integrate = function(angularVelocity, dt, angularFactor, ta
 
     return target;
 };
-},{"./CMath":27,"./Vec3":32}],31:[function(_dereq_,module,exports){
+},{"./CMath":27,"./Vec3":32,"./eMath":33}],31:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('./Vec3');
 var Quaternion = _dereq_('./Quaternion');
 
@@ -5024,6 +5027,7 @@ Transform.vectorToLocalFrame = function(position, quaternion, worldVector, resul
 module.exports = Vec3;
 
 var Mat3 = _dereq_('./Mat3');
+const eMath = _dereq_('./eMath');
 
 /**
  * 3-dimensional vector
@@ -5504,7 +5508,317 @@ Vec3.prototype.isAntiparallelTo = function(v,precision){
 Vec3.prototype.clone = function(){
     return new Vec3(this.x, this.y, this.z);
 };
-},{"./Mat3":29}],33:[function(_dereq_,module,exports){
+},{"./Mat3":29,"./eMath":33}],33:[function(_dereq_,module,exports){
+function eMath() {}
+
+module.exports = eMath;
+
+eMath.ACCURACY_SIN_ERROR = 1e-16;
+eMath.ACCURACY_COS_ERROR = 1e-16;
+eMath.ACCURACY_TAN_ERROR = 1e-16;
+eMath.DEG = 57.29577951308232;
+eMath.RAD = 0.017453292519943295;
+eMath.PI = 3.141592653589793;
+eMath.E = 2.718281828459045;
+eMath.LN2 = 0.6931471805599453;
+eMath.LN10 = 2.302585092994046;
+eMath.LOG2E = 1.4426950408889634;
+eMath.LOG10E = 0.4342944819032518;
+eMath.SQRT1_2 = 0.7071067811865476;
+eMath.SQRT2 = 1.4142135623730951;
+eMath.chain = null;
+
+eMath.getDecimalPlace = function (num) {
+    if (num && num !== Math.floor(num)) {
+        for (var n = 1, m = 10, temp = 0; n < 20; n += 1, m *= 10) {
+            temp = num * m;
+            if (temp == Math.floor(temp)) return n;
+        }
+
+        return 20;
+    } else {
+        return 0;
+    }
+};
+
+eMath.toFixed = function (num) {
+    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    if (n == 0) {
+        return Math.round(num);
+    } else {
+        var m = Math.pow(10, n);
+        return Math.round(num * (m * 10) / 10) / m;
+    }
+};
+
+eMath.abs = function (x) {
+    return Math.abs(x);
+};
+
+eMath.round = function (x) {
+    return Math.round(x);
+};
+
+eMath.ceil = function (x) {
+    return Math.ceil(x);
+};
+
+eMath.floor = function (x) {
+    return Math.floor(x);
+};
+
+eMath.min = function () {
+    return Math.min.apply(Math, arguments);
+};
+
+eMath.max = function () {
+    return Math.max.apply(Math, arguments);
+};
+
+eMath.add = function () {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+    }
+
+    if (args.length === 2) {
+        var num1 = args[0];
+        var num2 = args[1];
+        var m = Math.pow(10, Math.max(eMath.getDecimalPlace(num1), eMath.getDecimalPlace(num2)));
+        return (eMath.toFixed(num1 * m) + eMath.toFixed(num2 * m)) / m;
+    } else {
+        return args.reduce(function (a, b) {
+            return eMath.add(a, b);
+        });
+    }
+};
+
+eMath.sub = function () {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+    }
+
+    if (args.length === 2) {
+        var num1 = args[0];
+        var num2 = args[1];
+        var m = Math.pow(10, Math.max(eMath.getDecimalPlace(num1), eMath.getDecimalPlace(num2)));
+        return (eMath.toFixed(num1 * m) - eMath.toFixed(num2 * m)) / m;
+    } else {
+        return args.reduce(function (a, b) {
+            return eMath.sub(a, b);
+        });
+    }
+};
+
+eMath.mul = function () {
+    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
+    }
+
+    if (args.length === 2) {
+        var num1 = args[0];
+        var num2 = args[1]; // 方案1：
+        // 直接相乘，但是相乘两数小数点过多会导致中间值[(n1 * m1) * (n2 * m2)]过大
+        // const n1 = eMath.getDecimalPlace(num1);
+        // const n2 = eMath.getDecimalPlace(num2);
+        // const m1 = Math.pow(10, n1);
+        // const m2 = Math.pow(10, n2);
+        // return (n1 * m1) * (n2 * m2) / (m1 * m2);
+        // 方案2：
+        // 用除法实现乘法，不会存在过大中间值
+
+        var n1 = eMath.getDecimalPlace(num1);
+        var n2 = eMath.getDecimalPlace(num2);
+        var m = Math.pow(10, n2);
+        num2 = m / eMath.toFixed(num2 * m);
+        m = Math.pow(10, Math.max(n1, eMath.getDecimalPlace(num2)));
+        m = eMath.toFixed(num1 * m) / eMath.toFixed(num2 * m);
+        var n = Math.min(eMath.getDecimalPlace(m), n1 + n2);
+        return eMath.toFixed(m, n);
+    } else {
+        return args.reduce(function (a, b) {
+            return eMath.mul(a, b);
+        });
+    }
+};
+
+eMath.div = function () {
+    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        args[_key4] = arguments[_key4];
+    }
+
+    if (args.length === 2) {
+        var num1 = args[0];
+        var num2 = args[1];
+        var m = Math.pow(10, Math.max(eMath.getDecimalPlace(num1), eMath.getDecimalPlace(num2)));
+        return eMath.toFixed(num1 * m) / eMath.toFixed(num2 * m);
+    } else {
+        return args.reduce(function (a, b) {
+            return eMath.div(a, b);
+        });
+    }
+};
+
+eMath.rem = function () {
+    for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+        args[_key5] = arguments[_key5];
+    }
+
+    if (args.length === 2) {
+        var num1 = args[0];
+        var num2 = args[1];
+        var m = Math.pow(10, Math.max(eMath.getDecimalPlace(num1), eMath.getDecimalPlace(num2)));
+        return eMath.toFixed(num1 * m) % eMath.toFixed(num2 * m) / m;
+    } else {
+        return args.reduce(function (a, b) {
+            return eMath.rem(a, b);
+        });
+    }
+};
+
+eMath.pow = function (num, n) {
+    if (num == 0 && n == 0) {
+        return 1;
+    }
+
+    if (num == 0 && n > 0) {
+        return 0;
+    }
+
+    if (num == 0 && n < 0) {
+        return Infinity;
+    } // num为负数，n为负小数，返回NaN
+
+
+    if (num < 0 && n < 0 && Math.round(n) != n) {
+        return NaN;
+    }
+
+    if (Math.round(n) != n) {
+        throw new Error('n must be an integer');
+    }
+
+    var result = 1;
+
+    if (n > 0) {
+        for (var index = 0; index < n; index++) {
+            result = eMath.mul(result, num);
+        }
+    } else if (n < 0) {
+        for (var _index = 0, len = Math.abs(n); _index < len; _index++) {
+            result = eMath.div(result, num);
+        }
+    }
+
+    return result;
+};
+
+eMath.sqrt = function (n) {
+    if (n < 0) return NaN;
+    if (n === 0) return 0;
+    if (n === 1) return 1;
+    var last = 0;
+    var res = 1;
+    var c = 50;
+
+    while (res != last && --c >= 0) {
+        last = res;
+        res = eMath.div(eMath.add(res, eMath.div(n, res)), 2);
+    }
+
+    return res;
+};
+
+eMath.randomSeed = void 0;
+
+eMath.setSeed = function (seed) {
+    eMath.randomSeed = eMath.getSeed(seed);
+};
+
+eMath.andom = function () {
+    eMath.randomSeed = (eMath.randomSeed * 9301 + 49297) % 233280;
+    return eMath.randomSeed / 233280.0;
+};
+
+eMath.randomBySeed = function (seed) {
+    seed = eMath.getSeed(seed);
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280.0;
+};
+
+eMath.radiansToDegrees = function (radians) {
+    return eMath.div(radians, eMath.RAD);
+};
+
+eMath.degreesToRadians = function (degrees) {
+    return eMath.div(degrees, eMath.DEG);
+};
+
+eMath.get0To360Angle = function (angle) {
+    if (angle === 0) {
+        return 0;
+    } else if (angle < 0) {
+        return eMath.add(eMath.rem(angle, 360), 360);
+    } else {
+        return eMath.rem(angle, 360);
+    }
+};
+
+eMath._sin = {};
+eMath._cos = {};
+eMath._tan = {};
+eMath._atan2 = {};
+eMath._asin = {};
+eMath._acos = {};
+
+eMath.sin = function (x) {
+    if (eMath._sin.hasOwnProperty(x)) {
+        return eMath._sin[x];
+    }
+
+    return eMath.toFixed(Math.sin(x), 4);
+};
+
+eMath.cos = function (x) {
+    if (eMath._cos.hasOwnProperty(x)) {
+        return eMath._cos[x];
+    }
+
+    return eMath.toFixed(Math.cos(x), 4);
+};
+
+eMath.tan = function (x) {
+    if (eMath._tan.hasOwnProperty(x)) {
+        return eMath._tan[x];
+    }
+
+    return eMath.toFixed(Math.tan(x), 4);
+};
+
+eMath.atan2 = function (x, y) {
+    // if (eMath._atan2.hasOwnProperty(`${x}|${y}`)) {
+    //     return eMath._atan2[`${x}|${y}`];
+    // }
+    // return eMath.toFixed(Math.atan2(x, y), 4);
+    return Math.atan2(x, y)
+};
+
+eMath.asin = function (x) {
+    // if (eMath._asin.hasOwnProperty(x)) {
+    //     return eMath._asin[x];
+    // }
+    // return eMath.toFixed(Math.asin(x), 4);
+    return Math.asin(x)
+};
+
+eMath.acos = function (x) {
+    // if (eMath._asin.hasOwnProperty(x)) {
+    //     return eMath._acos[x];
+    // }
+    // return eMath.toFixed(Math.acos(x), 4);
+    return Math.acos(x)
+};
+},{}],34:[function(_dereq_,module,exports){
 module.exports = Body;
 
 var EventTarget = _dereq_('../utils/EventTarget');
@@ -5516,6 +5830,7 @@ var Material = _dereq_('../material/Material');
 var AABB = _dereq_('../collision/AABB');
 var Box = _dereq_('../shapes/Box');
 var World = _dereq_('../world/World');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * Base class for all body types.
@@ -6016,7 +6331,7 @@ Body.prototype.sleepTick = function(time){
     if(this.allowSleep){
         var sleepState = this.sleepState;
         var speedSquared = this.velocity.norm2() + this.angularVelocity.norm2();
-        var speedLimitSquared = Math.pow(this.sleepSpeedLimit,2);
+        var speedLimitSquared = eMath.pow(this.sleepSpeedLimit,2);
         if(sleepState===Body.AWAKE && speedSquared < speedLimitSquared){
             this.sleepState = Body.SLEEPY; // Sleepy
             this.timeLastSleepy = time;
@@ -6500,13 +6815,14 @@ Body.prototype.updateHasTrigger = function () {
     }
 }
 
-},{"../collision/AABB":3,"../material/Material":26,"../math/Mat3":29,"../math/Quaternion":30,"../math/Vec3":32,"../shapes/Box":39,"../shapes/Shape":45,"../utils/EventTarget":51,"../world/World":58}],34:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../material/Material":26,"../math/Mat3":29,"../math/Quaternion":30,"../math/Vec3":32,"../math/eMath":33,"../shapes/Box":40,"../shapes/Shape":46,"../utils/EventTarget":52,"../world/World":59}],35:[function(_dereq_,module,exports){
 var Body = _dereq_('./Body');
 var Vec3 = _dereq_('../math/Vec3');
 var Quaternion = _dereq_('../math/Quaternion');
 var RaycastResult = _dereq_('../collision/RaycastResult');
 var Ray = _dereq_('../collision/Ray');
 var WheelInfo = _dereq_('../objects/WheelInfo');
+const eMath = _dereq_('../math/eMath');
 
 module.exports = RaycastVehicle;
 
@@ -6731,7 +7047,7 @@ RaycastVehicle.prototype.updateVehicle = function(timeStep){
         }
 
         // Lock wheels
-        if(Math.abs(wheel.brake) > Math.abs(wheel.engineForce)){
+        if(eMath.abs(wheel.brake) > eMath.abs(wheel.engineForce)){
             wheel.deltaRotation = 0;
         }
 
@@ -7057,7 +7373,7 @@ RaycastVehicle.prototype.updateFriction = function(timeStep) {
                 this.sliding = true;
                 wheel.sliding = true;
 
-                var factor = maximp / Math.sqrt(impulseSquared);
+                var factor = maximp / eMath.sqrt(impulseSquared);
 
                 wheel.skidInfo *= factor;
             }
@@ -7204,7 +7520,7 @@ function resolveSingleBilateral(body1, pos1, body2, pos2, normal, impulse){
 
     return impulse;
 }
-},{"../collision/Ray":10,"../collision/RaycastResult":11,"../math/Quaternion":30,"../math/Vec3":32,"../objects/WheelInfo":38,"./Body":33}],35:[function(_dereq_,module,exports){
+},{"../collision/Ray":10,"../collision/RaycastResult":11,"../math/Quaternion":30,"../math/Vec3":32,"../math/eMath":33,"../objects/WheelInfo":39,"./Body":34}],36:[function(_dereq_,module,exports){
 var Body = _dereq_('./Body');
 var Sphere = _dereq_('../shapes/Sphere');
 var Box = _dereq_('../shapes/Box');
@@ -7427,7 +7743,7 @@ RigidVehicle.prototype.getWheelSpeed = function(wheelIndex){
     return w.dot(worldAxis);
 };
 
-},{"../constraints/HingeConstraint":16,"../math/CMath":27,"../math/Vec3":32,"../shapes/Box":39,"../shapes/Sphere":46,"./Body":33}],36:[function(_dereq_,module,exports){
+},{"../constraints/HingeConstraint":16,"../math/CMath":27,"../math/Vec3":32,"../shapes/Box":40,"../shapes/Sphere":47,"./Body":34}],37:[function(_dereq_,module,exports){
 module.exports = SPHSystem;
 
 var Shape = _dereq_('../shapes/Shape');
@@ -7436,6 +7752,7 @@ var Quaternion = _dereq_('../math/Quaternion');
 var Particle = _dereq_('../shapes/Particle');
 var Body = _dereq_('../objects/Body');
 var Material = _dereq_('../material/Material');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * Smoothed-particle hydrodynamics system
@@ -7625,24 +7942,24 @@ SPHSystem.prototype.update = function(){
 SPHSystem.prototype.w = function(r){
     // 315
     var h = this.smoothingRadius;
-    return 315.0/(64.0*Math.PI*Math.pow(h,9)) * Math.pow(h*h-r*r,3);
+    return 315.0/(64.0*eMath.PI*eMath.pow(h,9)) * eMath.pow(h*h-r*r,3);
 };
 
 // calculate gradient of the weight function
 SPHSystem.prototype.gradw = function(rVec,resultVec){
     var r = rVec.norm(),
         h = this.smoothingRadius;
-    rVec.mult(945.0/(32.0*Math.PI*Math.pow(h,9)) * Math.pow((h*h-r*r),2) , resultVec);
+    rVec.mult(945.0/(32.0*eMath.PI*eMath.pow(h,9)) * eMath.pow((h*h-r*r),2) , resultVec);
 };
 
 // Calculate nabla(W)
 SPHSystem.prototype.nablaw = function(r){
     var h = this.smoothingRadius;
-    var nabla = 945.0/(32.0*Math.PI*Math.pow(h,9)) * (h*h-r*r)*(7*r*r - 3*h*h);
+    var nabla = 945.0/(32.0*eMath.PI*eMath.pow(h,9)) * (h*h-r*r)*(7*r*r - 3*h*h);
     return nabla;
 };
 
-},{"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"../shapes/Particle":43,"../shapes/Shape":45}],37:[function(_dereq_,module,exports){
+},{"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../math/eMath":33,"../objects/Body":34,"../shapes/Particle":44,"../shapes/Shape":46}],38:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 
 module.exports = Spring;
@@ -7837,7 +8154,7 @@ Spring.prototype.applyForce = function(){
     bodyB.torque.vadd(rj_x_f,bodyB.torque);
 };
 
-},{"../math/Vec3":32}],38:[function(_dereq_,module,exports){
+},{"../math/Vec3":32}],39:[function(_dereq_,module,exports){
 var Vec3 = _dereq_('../math/Vec3');
 var Transform = _dereq_('../math/Transform');
 var RaycastResult = _dereq_('../collision/RaycastResult');
@@ -8120,7 +8437,7 @@ WheelInfo.prototype.updateWheel = function(chassis){
         this.clippedInvContactDotSuspension = 1.0;
     }
 };
-},{"../collision/RaycastResult":11,"../math/Transform":31,"../math/Vec3":32,"../utils/Utils":55}],39:[function(_dereq_,module,exports){
+},{"../collision/RaycastResult":11,"../math/Transform":31,"../math/Vec3":32,"../utils/Utils":56}],40:[function(_dereq_,module,exports){
 module.exports = Box;
 
 var Shape = _dereq_('./Shape');
@@ -8363,13 +8680,14 @@ Box.prototype.calculateWorldAABB = function(pos,quat,min,max){
     // });
 };
 
-},{"../math/Vec3":32,"./ConvexPolyhedron":40,"./Shape":45}],40:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./ConvexPolyhedron":41,"./Shape":46}],41:[function(_dereq_,module,exports){
 module.exports = ConvexPolyhedron;
 
 var Shape = _dereq_('./Shape');
 var Vec3 = _dereq_('../math/Vec3');
 var Quaternion = _dereq_('../math/Quaternion');
 var Transform = _dereq_('../math/Transform');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * A set of polygons describing a convex shape.
@@ -9085,7 +9403,7 @@ ConvexPolyhedron.prototype.updateBoundingSphereRadius = function(){
             max2 = norm2;
         }
     }
-    this.boundingSphereRadius = Math.sqrt(max2);
+    this.boundingSphereRadius = eMath.sqrt(max2);
 };
 
 var tempWorldVertex = new Vec3();
@@ -9139,7 +9457,7 @@ ConvexPolyhedron.prototype.calculateWorldAABB = function(pos,quat,min,max){
  * @return {Number}
  */
 ConvexPolyhedron.prototype.volume = function(){
-    return 4.0 * Math.PI * this.boundingSphereRadius / 3.0;
+    return 4.0 * eMath.PI * this.boundingSphereRadius / 3.0;
 };
 
 /**
@@ -9297,7 +9615,7 @@ ConvexPolyhedron.project = function(hull, axis, pos, quat, result){
     result[1] = min;
 };
 
-},{"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"./Shape":45}],41:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../math/eMath":33,"./Shape":46}],42:[function(_dereq_,module,exports){
 module.exports = Cylinder;
 
 var Shape = _dereq_('./Shape');
@@ -9305,6 +9623,7 @@ var Vec3 = _dereq_('../math/Vec3');
 var Quaternion = _dereq_('../math/Quaternion');
 var ConvexPolyhedron = _dereq_('./ConvexPolyhedron');
 var CMath = _dereq_('../math/CMath');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * @class Cylinder
@@ -9327,7 +9646,7 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
         var tf = [0];
         var bf = [1];
         var axes = [];
-        var theta = Math.PI * 2 / N;
+        var theta = eMath.PI * 2 / N;
         for (var i = 0; i < N; i++) {
             vertices.push(new Vec3(radiusTop * cos(theta * i), halfH, radiusTop * sin(theta * i)));
             vertices.push(new Vec3(radiusTop * cos(theta * i), -halfH, radiusTop * sin(theta * i)));
@@ -9370,8 +9689,8 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
     topface.push(1);
 
     for(var i=0; i<N; i++){
-        var theta = 2*Math.PI/N * (i+1);
-        var thetaN = 2*Math.PI/N * (i+0.5);
+        var theta = 2*eMath.PI/N * (i+1);
+        var thetaN = 2*eMath.PI/N * (i+0.5);
         if(i<N-1){
             // Bottom
             verts.push(new Vec3(radiusBottom*cos(theta),
@@ -9410,11 +9729,12 @@ function Cylinder( radiusTop, radiusBottom, height , numSegments , isDirY) {
 
 Cylinder.prototype = new ConvexPolyhedron();
 
-},{"../math/CMath":27,"../math/Quaternion":30,"../math/Vec3":32,"./ConvexPolyhedron":40,"./Shape":45}],42:[function(_dereq_,module,exports){
+},{"../math/CMath":27,"../math/Quaternion":30,"../math/Vec3":32,"../math/eMath":33,"./ConvexPolyhedron":41,"./Shape":46}],43:[function(_dereq_,module,exports){
 var Shape = _dereq_('./Shape');
 var ConvexPolyhedron = _dereq_('./ConvexPolyhedron');
 var Vec3 = _dereq_('../math/Vec3');
 var Utils = _dereq_('../utils/Utils');
+const eMath = _dereq_('../math/eMath');
 
 module.exports = Heightfield;
 
@@ -10096,7 +10416,7 @@ Heightfield.prototype.setHeightsFromImage = function(image, scale){
     this.updateMinValue();
     this.update();
 };
-},{"../math/Vec3":32,"../utils/Utils":55,"./ConvexPolyhedron":40,"./Shape":45}],43:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"../math/eMath":33,"../utils/Utils":56,"./ConvexPolyhedron":41,"./Shape":46}],44:[function(_dereq_,module,exports){
 module.exports = Particle;
 
 var Shape = _dereq_('./Shape');
@@ -10143,7 +10463,7 @@ Particle.prototype.calculateWorldAABB = function(pos,quat,min,max){
     max.copy(pos);
 };
 
-},{"../math/Vec3":32,"./Shape":45}],44:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./Shape":46}],45:[function(_dereq_,module,exports){
 module.exports = Plane;
 
 var Shape = _dereq_('./Shape');
@@ -10207,7 +10527,7 @@ Plane.prototype.calculateWorldAABB = function(pos, quat, min, max){
 Plane.prototype.updateBoundingSphereRadius = function(){
     this.boundingSphereRadius = Number.MAX_VALUE;
 };
-},{"../math/Vec3":32,"./Shape":45}],45:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./Shape":46}],46:[function(_dereq_,module,exports){
 module.exports = Shape;
 
 var EventTarget = _dereq_('../utils/EventTarget');
@@ -10329,11 +10649,12 @@ Shape.types = {
 };
 
 
-},{"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../utils/EventTarget":51,"./Shape":45}],46:[function(_dereq_,module,exports){
+},{"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../utils/EventTarget":52,"./Shape":46}],47:[function(_dereq_,module,exports){
 module.exports = Sphere;
 
 var Shape = _dereq_('./Shape');
 var Vec3 = _dereq_('../math/Vec3');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * Spherical shape
@@ -10389,7 +10710,7 @@ Sphere.prototype.calculateWorldAABB = function(pos,quat,min,max){
     }
 };
 
-},{"../math/Vec3":32,"./Shape":45}],47:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"../math/eMath":33,"./Shape":46}],48:[function(_dereq_,module,exports){
 module.exports = Trimesh;
 
 var Shape = _dereq_('./Shape');
@@ -10399,6 +10720,7 @@ var Transform = _dereq_('../math/Transform');
 var AABB = _dereq_('../collision/AABB');
 var Octree = _dereq_('../utils/Octree');
 var CMath = _dereq_('../math/CMath');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * @class Trimesh
@@ -10838,7 +11160,7 @@ Trimesh.prototype.updateBoundingSphereRadius = function(){
             max2 = norm2;
         }
     }
-    this.boundingSphereRadius = Math.sqrt(max2);
+    this.boundingSphereRadius = eMath.sqrt(max2);
 };
 
 var tempWorldVertex = new Vec3();
@@ -10901,7 +11223,7 @@ Trimesh.prototype.calculateWorldAABB = function(pos,quat,min,max){
  * @return {Number}
  */
 Trimesh.prototype.volume = function(){
-    return 4.0 * Math.PI * this.boundingSphereRadius / 3.0;
+    return 4.0 * eMath.PI * this.boundingSphereRadius / 3.0;
 };
 
 /**
@@ -10920,7 +11242,7 @@ Trimesh.createTorus = function (radius, tube, radialSegments, tubularSegments, a
     tube = tube || 0.5;
     radialSegments = radialSegments || 8;
     tubularSegments = tubularSegments || 6;
-    arc = arc || Math.PI * 2;
+    arc = arc || eMath.PI * 2;
 
     var vertices = [];
     var indices = [];
@@ -10928,7 +11250,7 @@ Trimesh.createTorus = function (radius, tube, radialSegments, tubularSegments, a
     for ( var j = 0; j <= radialSegments; j ++ ) {
         for ( var i = 0; i <= tubularSegments; i ++ ) {
             var u = i / tubularSegments * arc;
-            var v = j / radialSegments * Math.PI * 2;
+            var v = j / radialSegments * eMath.PI * 2;
 
             var x = ( radius + tube * CMath.cos( v ) ) * CMath.cos( u );
             var y = ( radius + tube * CMath.cos( v ) ) * CMath.sin( u );
@@ -10953,7 +11275,7 @@ Trimesh.createTorus = function (radius, tube, radialSegments, tubularSegments, a
     return new Trimesh(vertices, indices);
 };
 
-},{"../collision/AABB":3,"../math/CMath":27,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../utils/Octree":52,"./Shape":45}],48:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../math/CMath":27,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../math/eMath":33,"../utils/Octree":53,"./Shape":46}],49:[function(_dereq_,module,exports){
 module.exports = GSSolver;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -11095,7 +11417,7 @@ GSSolver.prototype.solve = function(dt,world){
     return iter;
 };
 
-},{"../math/Quaternion":30,"../math/Vec3":32,"./Solver":49}],49:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Vec3":32,"./Solver":50}],50:[function(_dereq_,module,exports){
 module.exports = Solver;
 
 /**
@@ -11156,7 +11478,7 @@ Solver.prototype.removeAllEquations = function(){
 };
 
 
-},{}],50:[function(_dereq_,module,exports){
+},{}],51:[function(_dereq_,module,exports){
 module.exports = SplitSolver;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -11311,7 +11633,7 @@ SplitSolver.prototype.solve = function(dt,world){
 function sortById(a, b){
     return b.id - a.id;
 }
-},{"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"./Solver":49}],51:[function(_dereq_,module,exports){
+},{"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":34,"./Solver":50}],52:[function(_dereq_,module,exports){
 /**
  * Base class for objects that dispatches events.
  * @class EventTarget
@@ -11412,7 +11734,7 @@ EventTarget.prototype = {
     }
 };
 
-},{}],52:[function(_dereq_,module,exports){
+},{}],53:[function(_dereq_,module,exports){
 var AABB = _dereq_('../collision/AABB');
 var Vec3 = _dereq_('../math/Vec3');
 
@@ -11643,7 +11965,7 @@ OctreeNode.prototype.removeEmptyNodes = function() {
     }
 };
 
-},{"../collision/AABB":3,"../math/Vec3":32}],53:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../math/Vec3":32}],54:[function(_dereq_,module,exports){
 module.exports = Pool;
 
 /**
@@ -11720,7 +12042,7 @@ Pool.prototype.resize = function (size) {
 };
 
 
-},{}],54:[function(_dereq_,module,exports){
+},{}],55:[function(_dereq_,module,exports){
 module.exports = TupleDictionary;
 
 /**
@@ -11827,7 +12149,7 @@ TupleDictionary.prototype.getKeyByIndex = function(index) {
 TupleDictionary.prototype.getDataByKey = function(Key) {
     return  this.data[Key];
 };
-},{}],55:[function(_dereq_,module,exports){
+},{}],56:[function(_dereq_,module,exports){
 function Utils(){}
 
 module.exports = Utils;
@@ -11852,7 +12174,7 @@ Utils.defaults = function(options, defaults){
     return options;
 };
 
-},{}],56:[function(_dereq_,module,exports){
+},{}],57:[function(_dereq_,module,exports){
 module.exports = Vec3Pool;
 
 var Vec3 = _dereq_('../math/Vec3');
@@ -11878,7 +12200,7 @@ Vec3Pool.prototype.constructObject = function(){
     return new Vec3();
 };
 
-},{"../math/Vec3":32,"./Pool":53}],57:[function(_dereq_,module,exports){
+},{"../math/Vec3":32,"./Pool":54}],58:[function(_dereq_,module,exports){
 module.exports = Narrowphase;
 
 var AABB = _dereq_('../collision/AABB');
@@ -11893,6 +12215,7 @@ var Solver = _dereq_('../solver/Solver');
 var Vec3Pool = _dereq_('../utils/Vec3Pool');
 var ContactEquation = _dereq_('../equations/ContactEquation');
 var FrictionEquation = _dereq_('../equations/FrictionEquation');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * Helper class for the World. Generates ContactEquations.
@@ -12234,7 +12557,7 @@ Narrowphase.prototype.boxParticle = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,jus
 Narrowphase.prototype[Shape.types.SPHERE] =
 Narrowphase.prototype.sphereSphere = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,justTest){
     if(justTest){
-        return xi.distanceSquared(xj) < Math.pow(si.radius + sj.radius, 2);
+        return xi.distanceSquared(xj) < eMath.pow(si.radius + sj.radius, 2);
     }
 
     // We will have only one contact in this case
@@ -12711,7 +13034,7 @@ Narrowphase.prototype.sphereBox = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,justT
             var dot1 = box_to_sphere.dot(ns1);
             var dot2 = box_to_sphere.dot(ns2);
             if(dot1<h1 && dot1>-h1 && dot2<h2 && dot2>-h2){
-                var dist = Math.abs(dot-h-R);
+                var dist = eMath.abs(dot-h-R);
                 if(side_distance===null || dist < side_distance){
                     side_distance = dist;
                     side_dot1 = dot1;
@@ -12838,7 +13161,7 @@ Narrowphase.prototype.sphereBox = function(si,sj,xi,xj,qi,qj,bi,bj,rsi,rsj,justT
                 dist.vsub(xj,dist);
 
                 // Distances in tangent direction and distance in the plane orthogonal to it
-                var tdist = Math.abs(orthonorm);
+                var tdist = eMath.abs(orthonorm);
                 var ndist = dist.norm();
 
                 if(tdist < sides[l].norm() && ndist<R){
@@ -13505,7 +13828,7 @@ Narrowphase.prototype.convexParticle = function(sj,si,xj,xi,qj,qi,bj,bi,rsi,rsj,
             // Check how much the particle penetrates the polygon plane.
             xi.vsub(verts[0],convexParticle_vertexToParticle);
             var penetration = -normal.dot(convexParticle_vertexToParticle);
-            if(minPenetration===null || Math.abs(penetration)<Math.abs(minPenetration)){
+            if(minPenetration===null || eMath.abs(penetration)<eMath.abs(minPenetration)){
 
                 if(justTest){
                     return true;
@@ -13590,10 +13913,10 @@ Narrowphase.prototype.convexHeightfield = function (
     Transform.pointToLocalFrame(hfPos, hfQuat, convexPos, localConvexPos);
 
     // Get the index of the data points to test against
-    var iMinX = Math.floor((localConvexPos.x - radius) / w) - 1,
-        iMaxX = Math.ceil((localConvexPos.x + radius) / w) + 1,
-        iMinY = Math.floor((localConvexPos.y - radius) / w) - 1,
-        iMaxY = Math.ceil((localConvexPos.y + radius) / w) + 1;
+    var iMinX = eMath.floor((localConvexPos.x - radius) / w) - 1,
+        iMaxX = eMath.ceil((localConvexPos.x + radius) / w) + 1,
+        iMinY = eMath.floor((localConvexPos.y - radius) / w) - 1,
+        iMaxY = eMath.ceil((localConvexPos.y + radius) / w) + 1;
 
     // Bail out if we are out of the terrain
     if(iMaxX < 0 || iMaxY < 0 || iMinX > data.length || iMinY > data[0].length){
@@ -13680,10 +14003,10 @@ Narrowphase.prototype.sphereHeightfield = function (
     Transform.pointToLocalFrame(hfPos, hfQuat, spherePos, localSpherePos);
 
     // Get the index of the data points to test against
-    var iMinX = Math.floor((localSpherePos.x - radius) / w) - 1,
-        iMaxX = Math.ceil((localSpherePos.x + radius) / w) + 1,
-        iMinY = Math.floor((localSpherePos.y - radius) / w) - 1,
-        iMaxY = Math.ceil((localSpherePos.y + radius) / w) + 1;
+    var iMinX = eMath.floor((localSpherePos.x - radius) / w) - 1,
+        iMaxX = eMath.ceil((localSpherePos.x + radius) / w) + 1,
+        iMinY = eMath.floor((localSpherePos.y - radius) / w) - 1,
+        iMaxY = eMath.ceil((localSpherePos.y + radius) / w) + 1;
 
     // Bail out if we are out of the terrain
     if(iMaxX < 0 || iMaxY < 0 || iMinX > data.length || iMinY > data[0].length){
@@ -13755,7 +14078,7 @@ Narrowphase.prototype.sphereHeightfield = function (
     }
 };
 
-},{"../collision/AABB":3,"../collision/Ray":10,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../objects/Body":33,"../shapes/ConvexPolyhedron":40,"../shapes/Shape":45,"../solver/Solver":49,"../utils/Vec3Pool":56}],58:[function(_dereq_,module,exports){
+},{"../collision/AABB":3,"../collision/Ray":10,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../math/Quaternion":30,"../math/Transform":31,"../math/Vec3":32,"../math/eMath":33,"../objects/Body":34,"../shapes/ConvexPolyhedron":41,"../shapes/Shape":46,"../solver/Solver":50,"../utils/Vec3Pool":57}],59:[function(_dereq_,module,exports){
 /* global performance */
 
 module.exports = World;
@@ -13779,6 +14102,7 @@ var RaycastResult = _dereq_('../collision/RaycastResult');
 var AABB = _dereq_('../collision/AABB');
 var Ray = _dereq_('../collision/Ray');
 var NaiveBroadphase = _dereq_('../collision/NaiveBroadphase');
+const eMath = _dereq_('../math/eMath');
 
 /**
  * The physics world
@@ -14553,7 +14877,7 @@ World.prototype.internalStep = function(dt){
             bj.type !== Body.STATIC
         ){
             var speedSquaredB = bj.velocity.norm2() + bj.angularVelocity.norm2();
-            var speedLimitSquaredB = Math.pow(bj.sleepSpeedLimit,2);
+            var speedLimitSquaredB = eMath.pow(bj.sleepSpeedLimit,2);
             if(speedSquaredB >= speedLimitSquaredB*2){
                 bi._wakeUpAfterNarrowphase = true;
             }
@@ -14566,7 +14890,7 @@ World.prototype.internalStep = function(dt){
             bi.type !== Body.STATIC
         ){
             var speedSquaredA = bi.velocity.norm2() + bi.angularVelocity.norm2();
-            var speedLimitSquaredA = Math.pow(bi.sleepSpeedLimit,2);
+            var speedLimitSquaredA = eMath.pow(bi.sleepSpeedLimit,2);
             if(speedSquaredA >= speedLimitSquaredA*2){
                 bj._wakeUpAfterNarrowphase = true;
             }
@@ -14628,7 +14952,7 @@ World.prototype.internalStep = function(dt){
     solver.removeAllEquations();
 
     // Apply damping, see http://code.google.com/p/bullet/issues/detail?id=74 for details
-    var pow = Math.pow;
+    var pow = eMath.pow;
     for(i=0; i!==N; i++){
         var bi = bodies[i];
         if(bi.type & DYNAMIC){ // Only for dynamic bodies
@@ -14992,6 +15316,6 @@ World.prototype.emitCollisionEvents = function () {
     this.contacts.length = 0;
 };
 
-},{"../collision/AABB":3,"../collision/ArrayCollisionMatrix":4,"../collision/NaiveBroadphase":7,"../collision/ObjectCollisionMatrix":8,"../collision/OverlapKeeper":9,"../collision/Ray":10,"../collision/RaycastResult":11,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../material/ContactMaterial":25,"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../objects/Body":33,"../shapes/Shape":45,"../solver/GSSolver":48,"../utils/EventTarget":51,"../utils/TupleDictionary":54,"./Narrowphase":57}]},{},[2])
+},{"../collision/AABB":3,"../collision/ArrayCollisionMatrix":4,"../collision/NaiveBroadphase":7,"../collision/ObjectCollisionMatrix":8,"../collision/OverlapKeeper":9,"../collision/Ray":10,"../collision/RaycastResult":11,"../equations/ContactEquation":20,"../equations/FrictionEquation":22,"../material/ContactMaterial":25,"../material/Material":26,"../math/Quaternion":30,"../math/Vec3":32,"../math/eMath":33,"../objects/Body":34,"../shapes/Shape":46,"../solver/GSSolver":49,"../utils/EventTarget":52,"../utils/TupleDictionary":55,"./Narrowphase":58}]},{},[2])
 (2)
 });

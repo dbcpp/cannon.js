@@ -4,6 +4,7 @@ var Quaternion = require('../math/Quaternion');
 var RaycastResult = require('../collision/RaycastResult');
 var Ray = require('../collision/Ray');
 var WheelInfo = require('../objects/WheelInfo');
+const eMath = require('../math/eMath');
 
 module.exports = RaycastVehicle;
 
@@ -228,7 +229,7 @@ RaycastVehicle.prototype.updateVehicle = function(timeStep){
         }
 
         // Lock wheels
-        if(Math.abs(wheel.brake) > Math.abs(wheel.engineForce)){
+        if(eMath.abs(wheel.brake) > eMath.abs(wheel.engineForce)){
             wheel.deltaRotation = 0;
         }
 
@@ -554,7 +555,7 @@ RaycastVehicle.prototype.updateFriction = function(timeStep) {
                 this.sliding = true;
                 wheel.sliding = true;
 
-                var factor = maximp / Math.sqrt(impulseSquared);
+                var factor = maximp / eMath.sqrt(impulseSquared);
 
                 wheel.skidInfo *= factor;
             }
