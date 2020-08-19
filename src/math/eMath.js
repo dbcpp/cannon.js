@@ -307,3 +307,4 @@ eMath.acos = function (x) {
     // return eMath.toFixed(Math.acos(x), 4);
     return Math.acos(x)
 };
+
